@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'src/layouts/custom_gradient_background.dart';
-import 'src/theme.dart';
+import 'src/layouts/theme.dart';
 
 void main() {
   runApp(const MyApp());
