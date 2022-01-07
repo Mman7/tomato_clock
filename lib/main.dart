@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'src/custom_gradient_background.dart';
+import 'src/layouts/custom_gradient_background.dart';
 import 'src/theme.dart';
 
 void main() {
