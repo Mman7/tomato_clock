@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'src/layouts/custom_gradient_background.dart';
 import 'src/layouts/theme.dart';
+import 'src/layouts/timer_control_card.dart';
+import 'src/layouts/tomato_count_card.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,7 +11,7 @@ void main() {
 
 //TODO find how to make a functional clock
 
-//TODO find a way add a tomato svg
+// TODO find a way make bottom sheet and make sure it functional
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -55,35 +58,32 @@ class _MyHomePageState extends State<MyHomePage> {
         secondColor: '#3A754A',
         child: Padding(
           padding: EdgeInsets.only(top: appBarHeight),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Tomato Count : ',
-                    style: TextStyle(
-                        fontSize: 17.5,
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).primaryColorDark)),
-                CustomGradientBackground(
-                  firstColor: '#48D356',
-                  secondColor: '#9EFFA8',
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black.withOpacity(0.25),
-                        offset: const Offset(0, 5),
-                        spreadRadius: 1,
-                        blurRadius: 4)
+          child: Column(
+            children: [
+              TomatoListCard(
+                tomatoCount: 0,
+              ),
+              const SizedBox(
+                height: 35,
+              ),
+              // Timer Controller
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    TimerControlCard(
+                      title: 'Focus',
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    TimerControlCard(
+                      title: 'Rest',
+                    ),
                   ],
-                  width: 300,
-                  height: 100,
-                  child: const Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: Text('tomato'),
-                  ),
                 ),
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),
