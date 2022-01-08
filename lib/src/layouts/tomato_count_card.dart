@@ -4,6 +4,7 @@ import 'tomato_list.dart';
 class TomatoListCard extends StatelessWidget {
   TomatoListCard({Key? key, this.tomatoCount}) : super(key: key);
   int? tomatoCount;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,13 +28,11 @@ class TomatoListCard extends StatelessWidget {
                 BoxShadow(
                     color: Colors.black.withOpacity(0.25),
                     offset: const Offset(0, 5),
-                    spreadRadius: 1,
-                    blurRadius: 4)
+                    spreadRadius: 2,
+                    blurRadius: 5)
               ],
             ),
-            child: TomatoList(
-              tomatoCount: tomatoCount,
-            ),
+            child: const TomatoList(),
           ),
         ],
       ),
