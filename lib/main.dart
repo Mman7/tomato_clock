@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
+import 'package:tomato_clock/src/providers/current_status_provider.dart';
+
+import 'src/layouts/timer_controller.dart';
+import 'src/providers/tomato_providers.dart';
 import 'src/layouts/custom_gradient_background.dart';
 import 'src/layouts/theme.dart';
-import 'src/layouts/timer_control_card.dart';
 import 'src/layouts/tomato_count_card.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-//TODO find how to make a functional clock
+// TODO : Alert when time finish
+// TODO : Alert when 4 tomato,alert big rest 30 minute
+// TODO : save user preference
+
+// TODO user can only press on the right status
+
+// TODO : user cannnot press Rest Timer start
 
 // TODO find a way make bottom sheet and make sure it functional
 
@@ -18,10 +27,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Tomato Clock',
-      theme: themeData,
-      home: const MyHomePage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => TomatoCount()),
+        ChangeNotifierProvider(create: (_) => CurrentStatus())
+      ],
+      child: MaterialApp(
+        title: 'Tomato Clock',
+        theme: themeData,
+        home: const MyHomePage(),
+      ),
     );
   }
 }
@@ -59,30 +74,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Padding(
           padding: EdgeInsets.only(top: appBarHeight),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TomatoListCard(
-                tomatoCount: 0,
+                tomatoCount: context.watch<TomatoCount>().tomatoCount,
               ),
               const SizedBox(
                 height: 35,
               ),
-              // Timer Controller
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    TimerControlCard(
-                      title: 'Focus',
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    TimerControlCard(
-                      title: 'Rest',
-                    ),
-                  ],
-                ),
-              )
+              const TimerController()
             ],
           ),
         ),
