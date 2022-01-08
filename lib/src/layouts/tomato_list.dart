@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
+import 'package:tomato_clock/src/providers/tomato_providers.dart';
 
 class TomatoList extends StatelessWidget {
-  TomatoList({Key? key, this.tomatoCount}) : super(key: key);
-  int? tomatoCount;
+  const TomatoList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class TomatoList extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          for (var i = 0; i < (tomatoCount ?? 0); i++)
+          for (var i = 0; i < (context.watch<TomatoCount>().tomatoCount); i++)
             SvgPicture.asset(
               'assert/tomato.svg',
               width: height,
