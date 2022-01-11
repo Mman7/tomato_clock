@@ -21,7 +21,7 @@ class TomatoList extends StatelessWidget {
         children: [
           for (var i = 0; i < (context.watch<TomatoCount>().tomatoCount); i++)
             SvgPicture.asset(
-              'assert/tomato.svg',
+              'assets/tomato.svg',
               width: height,
             ),
         ],
