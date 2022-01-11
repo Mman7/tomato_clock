@@ -22,33 +22,53 @@ class TimerController extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
-          Opacity(
-            opacity: statusChecker('focus'),
-            child: TimerControlCard(
-              title: 'Focus',
-              countMinute: 25,
-              onStart: () =>
-                  context.read<CurrentStatus>().changeStatus(value: 'focus'),
-              onFinish: () {
-                context.read<TomatoCount>().increaseTomatoCount();
-                context.read<CurrentStatus>().changeStatus(value: 'rest');
-              },
-            ),
+          Stack(
+            children: [
+              Opacity(
+                opacity: statusChecker('focus'),
+                child: TimerControlCard(
+                  title: 'Focus',
+                  countMinute: 25,
+                  onStart: () => context
+                      .read<CurrentStatus>()
+                      .changeStatus(value: 'focus'),
+                  onFinish: () {
+                    context.read<TomatoCount>().increaseTomatoCount();
+                    context.read<CurrentStatus>().changeStatus(value: 'rest');
+                  },
+                ),
+              ),
+              if (statusChecker('focus') != 1.0)
+                Positioned.fill(
+                    child: Container(
+                  color: Colors.transparent,
+                ))
+            ],
           ),
           const SizedBox(
             width: 20,
           ),
-          Opacity(
-            opacity: statusChecker('rest'),
-            child: TimerControlCard(
-              title: 'Rest',
-              countMinute: 5,
-              onStart: () =>
-                  context.read<CurrentStatus>().changeStatus(value: 'rest'),
-              onFinish: () {
-                context.read<CurrentStatus>().changeStatus(value: 'focus');
-              },
-            ),
+          Stack(
+            children: [
+              Opacity(
+                opacity: statusChecker('rest'),
+                child: TimerControlCard(
+                  title: 'Rest',
+                  countMinute: 5,
+                  onStart: () =>
+                      context.read<CurrentStatus>().changeStatus(value: 'rest'),
+                  onFinish: () {
+                    context.read<CurrentStatus>().changeStatus(value: 'focus');
+                  },
+                ),
+              ),
+              if (statusChecker('focus') == 1.0)
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                )
+            ],
           ),
         ],
       ),
