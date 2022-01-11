@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'tomato_list.dart';
 
 class TomatoListCard extends StatelessWidget {
-  TomatoListCard({Key? key, this.tomatoCount}) : super(key: key);
-  int? tomatoCount;
+  const TomatoListCard({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
