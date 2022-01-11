@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tomato_clock/src/providers/current_status_provider.dart';
+
+// Providers
+import 'src/layouts/bottom_history_bar.dart';
+import 'src/notification.dart';
+import 'src/providers/current_status_provider.dart';
 
 import 'src/layouts/timer_controller.dart';
 import 'src/providers/tomato_providers.dart';
@@ -8,17 +12,12 @@ import 'src/layouts/custom_gradient_background.dart';
 import 'src/layouts/theme.dart';
 import 'src/layouts/tomato_count_card.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
-// TODO : Alert when time finish
-// TODO : Alert when 4 tomato,alert big rest 30 minute
-// TODO : save user preference
-
-// TODO user can only press on the right status
-
-// TODO : user cannnot press Rest Timer start
+// save todo with localstore 1.2.1
 
 // TODO find a way make bottom sheet and make sure it functional
 
@@ -30,11 +29,14 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => TomatoCount()),
-        ChangeNotifierProvider(create: (_) => CurrentStatus())
+        ChangeNotifierProvider(create: (_) => CurrentStatus()),
+        ChangeNotifierProvider(
+          create: (_) => NotificationService(),
+        )
       ],
       child: MaterialApp(
         title: 'Tomato Clock',
-        theme: themeData,
+        theme: theme(context),
         home: const MyHomePage(),
       ),
     );
@@ -49,6 +51,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool isHistoryBasOpen = false;
+  historyBarValue() => isHistoryBasOpen
+      ? MediaQuery.of(context).size.height / 20
+      : MediaQuery.of(context).size.height / 1.25;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<NotificationService>().initialize();
+  }
+
   @override
   Widget build(BuildContext context) {
     final appBarHeight = AppBar().preferredSize.height * 2;
@@ -72,17 +85,23 @@ class _MyHomePageState extends State<MyHomePage> {
         firstColor: '#88FFA7',
         secondColor: '#3A754A',
         child: Padding(
-          padding: EdgeInsets.only(top: appBarHeight),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          padding: EdgeInsets.only(
+            top: appBarHeight,
+          ),
+          child: Stack(
+            clipBehavior: Clip.hardEdge,
             children: [
-              TomatoListCard(
-                tomatoCount: context.watch<TomatoCount>().tomatoCount,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  TomatoListCard(),
+                  SizedBox(
+                    height: 35,
+                  ),
+                  TimerController(),
+                ],
               ),
-              const SizedBox(
-                height: 35,
-              ),
-              const TimerController()
+              const BottomHistoryBar()
             ],
           ),
         ),
