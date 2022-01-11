@@ -4,6 +4,7 @@ import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
 
 import 'timer_control_card.dart';
+import '../show_dialog.dart';
 
 class TimerController extends StatelessWidget {
   const TimerController({
@@ -19,7 +20,7 @@ class TimerController extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Row(
         children: [
           Stack(
@@ -35,6 +36,21 @@ class TimerController extends StatelessWidget {
                   onFinish: () {
                     context.read<TomatoCount>().increaseTomatoCount();
                     context.read<CurrentStatus>().changeStatus(value: 'rest');
+                    TomatoCount provider = context.read<TomatoCount>();
+                    int tomatoCount = provider.tomatoCount;
+                    if (tomatoCount == 4) {
+                      specialCustomDialog(
+                          context: context,
+                          title: 'Time to Long Rest  ',
+                          msg: 'You can now Rest a little bit longer');
+                      provider.cleanTomatoCount();
+                    } else {
+                      showCustomDialog(
+                          context: context,
+                          title: 'Time to Rest !',
+                          msg:
+                              'You can now rest, press the start button to start counting');
+                    }
                   },
                 ),
               ),
@@ -59,6 +75,11 @@ class TimerController extends StatelessWidget {
                       context.read<CurrentStatus>().changeStatus(value: 'rest'),
                   onFinish: () {
                     context.read<CurrentStatus>().changeStatus(value: 'focus');
+                    showCustomDialog(
+                        context: context,
+                        title: 'Time to Focus !',
+                        msg:
+                            "It's time to focus, press the start button to start counting");
                   },
                 ),
               ),
