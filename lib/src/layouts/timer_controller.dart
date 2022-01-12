@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
+import 'package:tomato_clock/src/tomato_database.dart';
 
 import 'timer_control_card.dart';
 import '../show_dialog.dart';
@@ -35,6 +36,7 @@ class TimerController extends StatelessWidget {
                       .changeStatus(value: 'focus'),
                   onFinish: () {
                     context.read<TomatoCount>().increaseTomatoCount();
+                    context.read<TomatoDataBase>().increaseTomatoData();
                     context.read<CurrentStatus>().changeStatus(value: 'rest');
                     TomatoCount provider = context.read<TomatoCount>();
                     int tomatoCount = provider.tomatoCount;
