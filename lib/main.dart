@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tomato_clock/src/tomato_database.dart';
 
 // Providers
 import 'src/layouts/bottom_history_bar.dart';
@@ -17,9 +18,7 @@ void main() async {
   runApp(const MyApp());
 }
 
-// save todo with localstore 1.2.1
-
-// TODO find a way make bottom sheet and make sure it functional
+// TODO upload and refactor
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -32,7 +31,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CurrentStatus()),
         ChangeNotifierProvider(
           create: (_) => NotificationService(),
-        )
+        ),
+        ChangeNotifierProvider(create: (_) => TomatoDataBase())
       ],
       child: MaterialApp(
         title: 'Tomato Clock',
@@ -80,6 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: CustomGradientBackground(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+
         /// this will take all the space
         width: MediaQuery.of(context).size.width,
         firstColor: '#88FFA7',
