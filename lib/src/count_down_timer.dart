@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:timer_count_down/timer_controller.dart';
+import 'package:tomato_clock/src/notification.dart';
 
 /// DOC: https://pub.dev/packages/timer_count_down
 
 class CountDownTimer extends StatefulWidget {
-  CountDownTimer(
+  const CountDownTimer(
       {Key? key,
       this.seconds = 20,
       required this.onFinish,
@@ -63,8 +65,8 @@ class _CountDownTimerState extends State<CountDownTimer> {
             Countdown(
               controller: _controller,
               //! DEV HERE
-              // TODO Change here later: change to [seconds]
-              seconds: 1,
+              // TODO Change here later: change to [seconds] when release
+              seconds: seconds,
               build: (BuildContext context, double time) => Text(
                 '${secondsToMinutes(seconds: time)}',
                 style: TextStyle(
@@ -77,6 +79,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
                 _controller.restart();
                 _controller.pause();
                 widget.onFinish();
+                context.read<NotificationService>().instantNotification();
               },
             ),
             Material(
