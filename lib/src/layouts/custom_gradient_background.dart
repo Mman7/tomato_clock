@@ -6,6 +6,8 @@ class CustomGradientBackground extends StatelessWidget {
   CustomGradientBackground(
       {Key? key,
       required this.child,
+      required this.begin,
+      required this.end,
       this.firstColor,
       this.secondColor,
       this.boxShadow,
@@ -21,6 +23,8 @@ class CustomGradientBackground extends StatelessWidget {
   String? secondColor;
   double? width;
   double? height;
+  Alignment begin;
+  Alignment end;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +39,8 @@ class CustomGradientBackground extends StatelessWidget {
               HexColor(firstColor ?? '#00000'),
               HexColor(secondColor ?? '#fffff'),
             ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: begin,
+            end: end,
             stops: const [0.0, 1.0],
             tileMode: TileMode.clamp),
       ),
