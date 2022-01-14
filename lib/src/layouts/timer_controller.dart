@@ -31,7 +31,7 @@ class TimerController extends StatelessWidget {
                 opacity: statusChecker('focus'),
                 child: TimerControlCard(
                   title: 'Focus',
-                  countMinute: 25,
+                  countMinute: 15,
                   onStart: () => context
                       .read<CurrentStatus>()
                       .changeStatus(value: 'focus'),
