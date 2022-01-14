@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'history_displayer.dart';
 
-// TODO Finish Here and find a to get data & save data
-
 class BottomHistoryBar extends StatefulWidget {
   const BottomHistoryBar({Key? key}) : super(key: key);
 
@@ -19,6 +17,7 @@ class _BottomHistoryBarState extends State<BottomHistoryBar> {
   @override
   Widget build(BuildContext context) {
     Color primaryColor = Theme.of(context).primaryColorDark;
+    double width = MediaQuery.of(context).size.width;
     return AnimatedPositioned(
       curve: Curves.fastLinearToSlowEaseIn,
       height: MediaQuery.of(context).size.height,
@@ -26,21 +25,21 @@ class _BottomHistoryBarState extends State<BottomHistoryBar> {
       top: historyBarValue(),
       duration: const Duration(seconds: 1),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+        padding: EdgeInsets.symmetric(horizontal: width / 45, vertical: 0),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
           child: Column(
-            children: [CustomButton(primaryColor), const HistoryDisplayer()],
+            children: [customButton(primaryColor), const HistoryDisplayer()],
           ),
         ),
       ),
     );
   }
 
-  TextButton CustomButton(Color primaryColor) {
+  TextButton customButton(Color primaryColor) {
     return TextButton(
         onPressed: () {
           setState(() => isHistoryBasOpen = !isHistoryBasOpen);
