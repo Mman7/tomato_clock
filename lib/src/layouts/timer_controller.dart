@@ -57,7 +57,7 @@ class TimerController extends StatelessWidget {
                   },
                 ),
               ),
-              if (statusChecker('focus') != 1.0)
+              if (statusChecker('focus') != 1)
                 Positioned.fill(
                     child: Container(
                   color: Colors.transparent,
@@ -83,7 +83,7 @@ class TimerController extends StatelessWidget {
                   },
                 ),
               ),
-              if (statusChecker('focus') == 1.0)
+              if (statusChecker('rest') != 1)
                 Positioned.fill(
                   child: Container(
                     color: Colors.transparent,
