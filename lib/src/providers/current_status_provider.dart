@@ -11,8 +11,8 @@ class CurrentStatus with ChangeNotifier {
     notifyListeners();
   }
 
-  /// String value: focus / rest
-  changeStatus({required String value}) {
+  /// String value: focus / rest / null
+  changeStatus({required String? value}) {
     _currentStatus = value;
     notifyListeners();
   }
