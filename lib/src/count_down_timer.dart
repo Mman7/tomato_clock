@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:tomato_clock/src/notification.dart';
@@ -54,12 +55,16 @@ class _CountDownTimerState extends State<CountDownTimer> {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Material(
               color: Colors.transparent,
               child: IconButton(
+                  alignment: Alignment.center,
                   onPressed: () => increaseTime(),
+                  padding: const EdgeInsets.all(3),
+                  constraints: const BoxConstraints(),
                   icon: Icon(
                     Icons.add_circle,
                     color: themePrimaryColor,
@@ -70,9 +75,10 @@ class _CountDownTimerState extends State<CountDownTimer> {
               seconds: seconds,
               build: (BuildContext context, double time) => Text(
                 '${secondsToMinutes(seconds: time)}',
+                maxLines: 1,
                 style: TextStyle(
                     color: themePrimaryColor,
-                    fontSize: 25,
+                    fontSize: 6.5.w,
                     fontWeight: FontWeight.w700),
               ),
               interval: const Duration(milliseconds: 100),
@@ -86,6 +92,8 @@ class _CountDownTimerState extends State<CountDownTimer> {
             Material(
               color: Colors.transparent,
               child: IconButton(
+                  padding: const EdgeInsets.all(3),
+                  constraints: const BoxConstraints(),
                   onPressed: () => decreaseTime(),
                   icon: Icon(
                     Icons.remove_circle,
