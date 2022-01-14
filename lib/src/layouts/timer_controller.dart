@@ -23,6 +23,7 @@ class TimerController extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Stack(
             children: [
@@ -62,9 +63,6 @@ class TimerController extends StatelessWidget {
                   color: Colors.transparent,
                 ))
             ],
-          ),
-          const SizedBox(
-            width: 20,
           ),
           Stack(
             children: [
