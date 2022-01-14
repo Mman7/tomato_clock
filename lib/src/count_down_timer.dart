@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:tomato_clock/src/notification.dart';
+import 'package:tomato_clock/src/providers/current_status_provider.dart';
 
 /// DOC: https://pub.dev/packages/timer_count_down
 
 class CountDownTimer extends StatefulWidget {
+  // ignore: use_key_in_widget_constructors
   const CountDownTimer(
       {Key? key,
       this.seconds = 20,
@@ -55,6 +57,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Material(
+              color: Colors.transparent,
               child: IconButton(
                   onPressed: () => increaseTime(),
                   icon: Icon(
@@ -64,8 +67,6 @@ class _CountDownTimerState extends State<CountDownTimer> {
             ),
             Countdown(
               controller: _controller,
-              //! DEV HERE
-              // TODO Change here later: change to [seconds] when release
               seconds: seconds,
               build: (BuildContext context, double time) => Text(
                 '${secondsToMinutes(seconds: time)}',
@@ -83,6 +84,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
               },
             ),
             Material(
+              color: Colors.transparent,
               child: IconButton(
                   onPressed: () => decreaseTime(),
                   icon: Icon(
@@ -112,7 +114,11 @@ class _CountDownTimerState extends State<CountDownTimer> {
             customIconButton(
               context: context,
               icon: Icons.restore,
-              callback: () => {_controller.restart(), _controller.pause()},
+              callback: () => {
+                _controller.restart(),
+                _controller.pause(),
+                context.read<CurrentStatus>().changeStatus(value: null)
+              },
             ),
           ],
         ),
@@ -125,11 +131,10 @@ class _CountDownTimerState extends State<CountDownTimer> {
       required IconData icon,
       required VoidCallback callback}) {
     return Material(
+      color: Colors.transparent,
       child: IconButton(
           alignment: Alignment.center,
           onPressed: () => callback(),
-          // padding: EdgeInsets.zero,
-          // constraints: BoxConstraints(),
           icon: Icon(
             icon,
             color: Theme.of(context).textTheme.bodyText1?.color,
