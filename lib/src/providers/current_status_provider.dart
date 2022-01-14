@@ -13,9 +13,7 @@ class CurrentStatus with ChangeNotifier {
 
   /// String value: focus / rest
   changeStatus({required String value}) {
-    print('change $value');
     _currentStatus = value;
     notifyListeners();
-    print('change status to : $_currentStatus');
   }
 }
