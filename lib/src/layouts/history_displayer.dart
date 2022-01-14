@@ -16,15 +16,15 @@ class _HistoryDisplayerState extends State<HistoryDisplayer> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: RefreshIndicator(
-      onRefresh: () async {
+        child: GestureDetector(
+      onVerticalDragDown: (drag) {
         setState(() {});
       },
       child: FutureBuilder<dynamic>(
         future: context.read<TomatoDataBase>().fetchData(),
         builder: (context, AsyncSnapshot<dynamic> snapshot) {
           Widget textTips = const Text(
-            'Pull down to refresh',
+            'Or pull down to refresh',
             style: TextStyle(color: Colors.grey),
           );
           if (snapshot.data == null) return textTips;
@@ -32,6 +32,7 @@ class _HistoryDisplayerState extends State<HistoryDisplayer> {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
                   itemCount: snapshot.data?.length ?? 0,
                   itemBuilder: (context, index) {
