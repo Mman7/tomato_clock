@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sizer/sizer.dart';
 
 import '../count_down_timer.dart';
 
@@ -21,7 +22,7 @@ class TimerControlCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Color? themePrimaryColor = Theme.of(context).textTheme.bodyText1?.color;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 25),
+      padding: EdgeInsets.symmetric(horizontal: 0.5.w, vertical: 25),
       decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -39,8 +40,11 @@ class TimerControlCard extends StatelessWidget {
             title,
             style: TextStyle(
                 color: themePrimaryColor,
-                fontSize: 25,
+                fontSize: 20,
                 fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           CountDownTimer(
             onFinish: onFinish,
