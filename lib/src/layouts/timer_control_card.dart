@@ -4,17 +4,17 @@ import 'package:hexcolor/hexcolor.dart';
 import '../count_down_timer.dart';
 
 class TimerControlCard extends StatelessWidget {
-  TimerControlCard(
+  const TimerControlCard(
       {Key? key,
       required this.title,
-      this.countMinute,
+      required this.countMinute,
       required this.onFinish,
       required this.onStart})
       : super(key: key);
-  String title;
-  int? countMinute;
-  VoidCallback onFinish;
-  VoidCallback onStart;
+  final String title;
+  final int countMinute;
+  final VoidCallback onFinish;
+  final VoidCallback onStart;
   minuteToSeconds(minute) => Duration(minutes: minute).inSeconds;
 
   @override
