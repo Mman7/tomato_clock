@@ -74,8 +74,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
               controller: _controller,
               seconds: seconds,
               build: (BuildContext context, double time) => Text(
-                '${secondsToMinutes(seconds: time)}',
-                maxLines: 1,
+                secondsToMinutes(seconds: time).toString(),
                 style: TextStyle(
                     color: themePrimaryColor,
                     fontSize: 6.5.w,
