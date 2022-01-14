@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TomatoCard extends StatefulWidget {
-  TomatoCard({
+  const TomatoCard({
     Key? key,
     required this.date,
     required this.svgHeight,
     required this.tomatoCount,
   }) : super(key: key);
 
-  var date;
+  final String date;
   final double svgHeight;
-  var tomatoCount;
+  final int tomatoCount;
 
   @override
   State<TomatoCard> createState() => _TomatoCardState();
@@ -22,7 +22,7 @@ class _TomatoCardState extends State<TomatoCard> {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        '${widget.date}',
+        widget.date.toString(),
         style: TextStyle(
             color: Theme.of(context).primaryColorDark.withAlpha(255),
             fontWeight: FontWeight.w700),
