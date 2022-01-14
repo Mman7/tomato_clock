@@ -12,9 +12,6 @@ class NotificationService extends ChangeNotifier {
     AndroidInitializationSettings androidInitializationSettings =
         const AndroidInitializationSettings('ic_launcher');
 
-    IOSFlutterLocalNotificationsPlugin iosFlutterLocalNotificationsPlugin =
-        IOSFlutterLocalNotificationsPlugin();
-
     final InitializationSettings initializationSettings =
         InitializationSettings(android: androidInitializationSettings);
 
