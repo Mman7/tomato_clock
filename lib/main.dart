@@ -18,8 +18,6 @@ void main() async {
   runApp(const MyApp());
 }
 
-// TODO upload and refactor
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
