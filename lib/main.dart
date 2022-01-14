@@ -1,7 +1,9 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_clock/src/tomato_database.dart';
-
+import 'package:sizer/sizer.dart';
 // Providers
 import 'src/layouts/bottom_history_bar.dart';
 import 'src/notification.dart';
@@ -15,7 +17,8 @@ import 'src/layouts/tomato_count_card.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(DevicePreview(
+      enabled: !kReleaseMode, builder: (context) => const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -32,10 +35,15 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(create: (_) => TomatoDataBase())
       ],
-      child: MaterialApp(
-        title: 'Tomato Clock',
-        theme: theme(context),
-        home: const MyHomePage(),
+      child: Sizer(
+        builder: (context, orientation, deviceType) => MaterialApp(
+          useInheritedMediaQuery: true,
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          title: 'Tomato Clock',
+          theme: theme(context),
+          home: const MyHomePage(),
+        ),
       ),
     );
   }
