@@ -5,6 +5,7 @@ import 'package:timer_count_down/timer_count_down.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:tomato_clock/src/notification.dart';
 import 'package:tomato_clock/src/providers/current_status_provider.dart';
+import 'package:tomato_clock/src/providers/tomato_providers.dart';
 
 /// DOC: https://pub.dev/packages/timer_count_down
 
@@ -14,31 +15,43 @@ class CountDownTimer extends StatefulWidget {
       {Key? key,
       this.seconds = 20,
       required this.onFinish,
-      required this.onStart});
+      required this.onStart,
+      required this.databaseName});
   final int seconds;
   final VoidCallback onFinish;
   final VoidCallback onStart;
+  final String databaseName;
   @override
   State<CountDownTimer> createState() => _CountDownTimerState();
 }
 
 class _CountDownTimerState extends State<CountDownTimer> {
   final CountdownController _controller = CountdownController();
-  late int seconds;
+  late int seconds = widget.seconds;
+  late final countingDatabase = context.read<TomatoCount>();
 
   @override
   void initState() {
     super.initState();
-    seconds = widget.seconds;
+    context
+        .read<TomatoCount>()
+        .getCountingTime(databaseName: widget.databaseName)
+        .then((value) => setState(() {
+              seconds = value ?? widget.seconds;
+            }));
   }
 
   increaseTime() {
     setState(() => seconds += 60);
+    countingDatabase.saveCountingTime(
+        databaseName: widget.databaseName, value: seconds);
   }
 
   decreaseTime() {
     if (seconds == 0 || seconds.isNegative || seconds < 120) return;
     setState(() => seconds -= 60);
+    countingDatabase.saveCountingTime(
+        databaseName: widget.databaseName, value: seconds);
   }
 
   secondsToMinutes({required double seconds}) {

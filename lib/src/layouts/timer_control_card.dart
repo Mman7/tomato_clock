@@ -47,6 +47,7 @@ class TimerControlCard extends StatelessWidget {
             height: 10,
           ),
           CountDownTimer(
+            databaseName: title,
             onFinish: onFinish,
             onStart: onStart,
             seconds: minuteToSeconds(countMinute),
