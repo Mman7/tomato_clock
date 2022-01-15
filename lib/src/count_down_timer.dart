@@ -52,6 +52,8 @@ class _CountDownTimerState extends State<CountDownTimer> {
     setState(() => seconds -= 60);
     countingDatabase.saveCountingTime(
         databaseName: widget.databaseName, value: seconds);
+    _controller.restart();
+    _controller.pause();
   }
 
   secondsToMinutes({required double seconds}) {
@@ -85,6 +87,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
             ),
             Countdown(
               controller: _controller,
+              //! DEV HERE
               seconds: seconds,
               build: (BuildContext context, double time) => Text(
                 secondsToMinutes(seconds: time).toString(),
@@ -114,31 +117,35 @@ class _CountDownTimerState extends State<CountDownTimer> {
             ),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        Stack(
           children: [
-            customIconButton(
-              context: context,
-              icon: Icons.play_arrow_rounded,
-              callback: () {
-                widget.onStart();
-                _controller.start();
-              },
-            ),
-            customIconButton(
-              context: context,
-              icon: Icons.pause,
-              callback: () => _controller.pause(),
-            ),
-            customIconButton(
-              context: context,
-              icon: Icons.restore,
-              callback: () => {
-                _controller.restart(),
-                _controller.pause(),
-                context.read<CurrentStatus>().changeStatus(value: null)
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                customIconButton(
+                  context: context,
+                  icon: Icons.play_arrow_rounded,
+                  callback: () {
+                    widget.onStart();
+                    _controller.start();
+                  },
+                ),
+                customIconButton(
+                  context: context,
+                  icon: Icons.pause,
+                  callback: () => _controller.pause(),
+                ),
+                customIconButton(
+                  context: context,
+                  icon: Icons.restore,
+                  callback: () => {
+                    _controller.restart(),
+                    _controller.pause(),
+                    context.read<CurrentStatus>().changeStatus(value: null)
+                  },
+                ),
+              ],
             ),
           ],
         ),
