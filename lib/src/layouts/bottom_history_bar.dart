@@ -67,16 +67,6 @@ class _BottomHistoryBarState extends State<BottomHistoryBar> {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           child1,
-          Row(
-            children: [
-              IconButton(
-                constraints: const BoxConstraints(),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                onPressed: () {},
-                icon: const Icon(Icons.refresh),
-              )
-            ],
-          )
         ]));
   }
 }
