@@ -32,7 +32,6 @@ class _CountDownTimerState extends State<CountDownTimer> {
   @override
   void initState() {
     super.initState();
-    //! DEV HEREs
     context
         .read<TomatoCount>()
         .getCountingTime(databaseName: databaseName)
@@ -40,6 +39,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
               maxSeconds = value ?? maxSeconds;
               seconds = value ?? maxSeconds;
             }));
+    Future.delayed(const Duration(milliseconds: 1), () => resetTimer());
   }
 
   increaseTime() {
@@ -89,6 +89,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
     setState(() {
       seconds = maxSeconds;
     });
+    currentStatus.changeToNullStatus();
   }
 
   timesUp() {
@@ -128,7 +129,6 @@ class _CountDownTimerState extends State<CountDownTimer> {
             ),
             Text(
               '${secondsToMinutes(seconds: seconds)}',
-              // '$seconds',
               style: TextStyle(
                   color: themePrimaryColor,
                   fontSize: 6.w,
