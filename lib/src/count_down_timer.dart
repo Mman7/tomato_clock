@@ -1,13 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:timer_count_down/timer_count_down.dart';
-import 'package:timer_count_down/timer_controller.dart';
-import 'package:tomato_clock/src/notification.dart';
 import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
-
-/// DOC: https://pub.dev/packages/timer_count_down
 
 class CountDownTimer extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
@@ -26,42 +23,86 @@ class CountDownTimer extends StatefulWidget {
 }
 
 class _CountDownTimerState extends State<CountDownTimer> {
-  final CountdownController _controller = CountdownController();
-  late int seconds = widget.seconds;
+  Timer? timer;
+  late int maxSeconds = 5; // widget.seconds
+  late int seconds = maxSeconds;
   late final countingDatabase = context.read<TomatoCount>();
-
+  late final currentStatus = context.read<CurrentStatus>();
+  late final databaseName = widget.databaseName.toLowerCase();
   @override
   void initState() {
     super.initState();
-    context
-        .read<TomatoCount>()
-        .getCountingTime(databaseName: widget.databaseName)
-        .then((value) => setState(() {
-              seconds = value ?? widget.seconds;
-            }));
+    //! DEV HEREs
+    // context
+    //     .read<TomatoCount>()
+    //     .getCountingTime(databaseName: databaseName)
+    //     .then((value) => setState(() {
+    //           maxSeconds = value ?? maxSeconds;
+    //           seconds = value ?? maxSeconds;
+    //         }));
   }
 
   increaseTime() {
-    setState(() => seconds += 60);
+    setState(() => {seconds += 60, maxSeconds += 60});
     countingDatabase.saveCountingTime(
-        databaseName: widget.databaseName, value: seconds);
+        databaseName: databaseName, value: maxSeconds);
   }
 
   decreaseTime() {
     if (seconds == 0 || seconds.isNegative || seconds < 120) return;
-    setState(() => seconds -= 60);
+    setState(() => {
+          maxSeconds -= 60,
+          seconds -= 60,
+        });
     countingDatabase.saveCountingTime(
-        databaseName: widget.databaseName, value: seconds);
-    _controller.restart();
-    _controller.pause();
+        databaseName: databaseName, value: maxSeconds);
   }
 
-  secondsToMinutes({required double seconds}) {
+  secondsToMinutes({required seconds}) {
     getParsedTime(String time) => time.length <= 1 ? '0$time' : time;
-    var formatedTimeMinute = seconds ~/ 60;
-    var formatedTimeSeconds = (seconds % 60).truncate();
+    var min = seconds ~/ 60;
+    var sec = (seconds % 60).truncate();
+    if (seconds < 0) sec = seconds.truncate();
+    return '${getParsedTime(min.toString())}:${getParsedTime(sec.toString())}';
+  }
 
-    return '${getParsedTime(formatedTimeMinute.toString())}:${getParsedTime(formatedTimeSeconds.toString())}';
+  playTimer() {
+    final isRunning = timer == null ? false : timer!.isActive;
+    if (isRunning) return;
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        seconds--;
+      });
+      print('time checking $seconds');
+      if (seconds <= 0 || seconds.isNegative) timesUp();
+    });
+    currentStatus.changeStatus(value: databaseName);
+  }
+
+  pauseTimer() {
+    timer?.cancel();
+    () => widget.onStart();
+  }
+
+  resetTimer() {
+    timer?.cancel();
+    setState(() {
+      seconds = maxSeconds;
+    });
+  }
+
+  timesUp() {
+    timer?.cancel();
+    setState(() {
+      seconds = maxSeconds;
+      widget.onFinish();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
   }
 
   @override
@@ -85,24 +126,13 @@ class _CountDownTimerState extends State<CountDownTimer> {
                     color: themePrimaryColor,
                   )),
             ),
-            Countdown(
-              controller: _controller,
-              //! DEV HERE
-              seconds: seconds,
-              build: (BuildContext context, double time) => Text(
-                secondsToMinutes(seconds: time).toString(),
-                style: TextStyle(
-                    color: themePrimaryColor,
-                    fontSize: 6.5.w,
-                    fontWeight: FontWeight.w700),
-              ),
-              interval: const Duration(milliseconds: 100),
-              onFinished: () {
-                _controller.restart();
-                _controller.pause();
-                widget.onFinish();
-                context.read<NotificationService>().instantNotification();
-              },
+            Text(
+              '${secondsToMinutes(seconds: seconds)}',
+              // '$seconds',
+              style: TextStyle(
+                  color: themePrimaryColor,
+                  fontSize: 6.w,
+                  fontWeight: FontWeight.w700),
             ),
             Material(
               color: Colors.transparent,
@@ -126,24 +156,17 @@ class _CountDownTimerState extends State<CountDownTimer> {
                 customIconButton(
                   context: context,
                   icon: Icons.play_arrow_rounded,
-                  callback: () {
-                    widget.onStart();
-                    _controller.start();
-                  },
+                  callback: () => playTimer(),
                 ),
                 customIconButton(
                   context: context,
                   icon: Icons.pause,
-                  callback: () => _controller.pause(),
+                  callback: () => pauseTimer(),
                 ),
                 customIconButton(
                   context: context,
                   icon: Icons.restore,
-                  callback: () => {
-                    _controller.restart(),
-                    _controller.pause(),
-                    context.read<CurrentStatus>().changeStatus(value: null)
-                  },
+                  callback: () => resetTimer(),
                 ),
               ],
             ),
