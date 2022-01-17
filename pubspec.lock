@@ -488,13 +488,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.8"
-  timer_count_down:
-    dependency: "direct main"
-    description:
-      name: timer_count_down
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.1"
   timezone:
     dependency: transitive
     description:
@@ -530,6 +523,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.3.3"
+  workmanager:
+    dependency: "direct main"
+    description:
+      name: workmanager
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.1"
   xdg_directories:
     dependency: transitive
     description:
