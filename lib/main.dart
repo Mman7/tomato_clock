@@ -38,8 +38,8 @@ void main() async {
       isInDebugMode:
           false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
-  Workmanager()
-      .registerPeriodicTask('1', 'simpeTask', frequency: Duration(minutes: 15));
+  Workmanager().registerPeriodicTask('1', 'simpeTask',
+      frequency: const Duration(minutes: 15));
   runApp(DevicePreview(
       enabled: !kReleaseMode, builder: (context) => const MyApp()));
 }
