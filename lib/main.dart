@@ -27,6 +27,11 @@ void callbackDispatcher() {
 }
 
 void main() async {
+  /// https://stackoverflow.com/a/66057043
+  ///
+  // if build use:
+  // flutter build apk --split-per-abi --no-shrink
+  // or else it will not working
   WidgetsFlutterBinding.ensureInitialized();
   Workmanager().initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher
@@ -89,9 +94,20 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final appBarHeight = AppBar().preferredSize.height * 2;
+    final tomatoCount = context.read<TomatoCount>();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 3.w),
+            child: Tooltip(
+                message: 'Refresh Tomato Count',
+                child: IconButton(
+                    onPressed: () => tomatoCount.cleanTomatoCount(),
+                    icon: const Icon(Icons.refresh))),
+          )
+        ],
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
         shape: const RoundedRectangleBorder(
