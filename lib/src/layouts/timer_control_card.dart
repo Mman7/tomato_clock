@@ -22,7 +22,7 @@ class TimerControlCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Color? themePrimaryColor = Theme.of(context).textTheme.bodyText1?.color;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 0.5.w, vertical: 25),
+      padding: EdgeInsets.symmetric(horizontal: 0.5.w, vertical: 3.h),
       decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
