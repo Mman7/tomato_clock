@@ -24,7 +24,7 @@ class CountDownTimer extends StatefulWidget {
 
 class _CountDownTimerState extends State<CountDownTimer> {
   Timer? timer;
-  late int maxSeconds = 5; // widget.seconds
+  late int maxSeconds = widget.seconds; // widget.seconds
   late int seconds = maxSeconds;
   late final countingDatabase = context.read<TomatoCount>();
   late final currentStatus = context.read<CurrentStatus>();
@@ -33,13 +33,13 @@ class _CountDownTimerState extends State<CountDownTimer> {
   void initState() {
     super.initState();
     //! DEV HEREs
-    // context
-    //     .read<TomatoCount>()
-    //     .getCountingTime(databaseName: databaseName)
-    //     .then((value) => setState(() {
-    //           maxSeconds = value ?? maxSeconds;
-    //           seconds = value ?? maxSeconds;
-    //         }));
+    context
+        .read<TomatoCount>()
+        .getCountingTime(databaseName: databaseName)
+        .then((value) => setState(() {
+              maxSeconds = value ?? maxSeconds;
+              seconds = value ?? maxSeconds;
+            }));
   }
 
   increaseTime() {
