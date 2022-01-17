@@ -4,6 +4,7 @@ import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
 import 'package:tomato_clock/src/tomato_database.dart';
 
+import '../notification.dart';
 import 'timer_control_card.dart';
 import '../show_dialog.dart';
 
@@ -39,8 +40,10 @@ class TimerController extends StatelessWidget {
                     context.read<TomatoCount>().increaseTomatoCount();
                     context.read<TomatoDataBase>().increaseTomatoData();
                     context.read<CurrentStatus>().changeStatus(value: 'rest');
+                    context.read<NotificationService>().instantNotification();
                     TomatoCount provider = context.read<TomatoCount>();
                     int tomatoCount = provider.tomatoCount;
+
                     if (tomatoCount == 4) {
                       specialCustomDialog(
                           context: context,
@@ -75,6 +78,7 @@ class TimerController extends StatelessWidget {
                       context.read<CurrentStatus>().changeStatus(value: 'rest'),
                   onFinish: () {
                     context.read<CurrentStatus>().changeStatus(value: 'focus');
+                    context.read<NotificationService>().instantNotification();
                     showCustomDialog(
                         context: context,
                         title: 'Time to Focus !',
