@@ -19,7 +19,9 @@ import 'src/layouts/tomato_count_card.dart';
 
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) {
-    if (task == 'simpleTask') {}
+    if (task == 'simpleTask') {
+      print('exec simpleTask');
+    }
     return Future.value(true);
   });
 }
