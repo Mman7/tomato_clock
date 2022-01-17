@@ -14,6 +14,7 @@ class TomatoDataBase with ChangeNotifier {
     return Future.value(parseItem);
   }
 
+  ///  DEBUG ONLY
   // printAllData() async {
   //   var items = await _db.collection('tomato').get();
   //   print(items);
@@ -27,6 +28,7 @@ class TomatoDataBase with ChangeNotifier {
     notifyListeners();
   }
 
+  ///  DEBUG ONLY
   // findDataById(DateTime id) async {
   //   var item = await _db.collection('tomato').doc(formatDate(id)).get();
   //   var parseItem = item?.entries.map((e) => e.value);
@@ -38,14 +40,11 @@ class TomatoDataBase with ChangeNotifier {
     var item = await _db.collection('tomato').doc(id).get();
     var tomatoCountInData = item?.entries.first.value ?? 0;
     Logger().d(tomatoCountInData);
-    // if (tomatoCountInData == null) {
-    //   saveTomato();
-    // } else {
+
     _db.collection('tomato').doc(id).set({
       'tomatoCount': tomatoCountInData + 1,
       'date': formatDate(DateTime.now())
     });
-    // }
     notifyListeners();
   }
 }
