@@ -16,7 +16,7 @@ class TomatoListCard extends StatelessWidget {
         children: [
           Text('Tomato Count : ',
               style: TextStyle(
-                  fontSize: 2.75.h,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).primaryColorDark)),
           const SizedBox(
