@@ -10,6 +10,11 @@ class TomatoCount with ChangeNotifier {
   int get focusCountMinute => _focusCountMinute;
   int get restCountMinute => _restCountMinute;
 
+  intialCurrentTomato() async {
+    getCountingTime(databaseName: 'currentTomato')
+        .then((value) => _tomatoCount = value);
+  }
+
   /// value type : int
   saveCountingTime({databaseName, value}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -23,13 +28,16 @@ class TomatoCount with ChangeNotifier {
     return value;
   }
 
-  increaseTomatoCount() {
+  increaseTomatoCount() async {
     _tomatoCount++;
+    saveCountingTime(databaseName: 'currentTomato', value: _tomatoCount);
     notifyListeners();
   }
 
-  cleanTomatoCount() {
+  cleanTomatoCount() async {
     _tomatoCount = 0;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('currentTomato', _tomatoCount);
     notifyListeners();
   }
 }
