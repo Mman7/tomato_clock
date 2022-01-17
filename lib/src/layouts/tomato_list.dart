@@ -4,8 +4,19 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
 
-class TomatoList extends StatelessWidget {
+class TomatoList extends StatefulWidget {
   const TomatoList({Key? key}) : super(key: key);
+
+  @override
+  State<TomatoList> createState() => _TomatoListState();
+}
+
+class _TomatoListState extends State<TomatoList> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<TomatoCount>().intialCurrentTomato();
+  }
 
   @override
   Widget build(BuildContext context) {
