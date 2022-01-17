@@ -1,5 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tomato_clock">
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+        <uses-permission android:name="android.permission.VIBRATE" />
         <uses-permission android:name="android.permission.WAKE_LOCK" />
         <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
         <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
@@ -23,9 +28,6 @@
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
-            <meta-data
-                    android:name="flutterEmbedding"
-                    android:value="2" />
             <meta-data 
                  android:name="com.google.firebase.messaging.default_notification_icon" 
                  android:resource="@mipmap/ic_launcher" />
