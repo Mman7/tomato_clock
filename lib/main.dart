@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_clock/src/tomato_database.dart';
 import 'package:sizer/sizer.dart';
+import 'package:workmanager/workmanager.dart';
 // Providers
+
 import 'src/layouts/bottom_history_bar.dart';
 import 'src/notification.dart';
 import 'src/providers/current_status_provider.dart';
@@ -15,8 +17,22 @@ import 'src/layouts/custom_gradient_background.dart';
 import 'src/layouts/theme.dart';
 import 'src/layouts/tomato_count_card.dart';
 
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) {
+    if (task == 'simpleTask') {}
+    return Future.value(true);
+  });
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Workmanager().initialize(
+      callbackDispatcher, // The top level function, aka callbackDispatcher
+      isInDebugMode:
+          false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+      );
+  Workmanager()
+      .registerPeriodicTask('1', 'simpeTask', frequency: Duration(minutes: 15));
   runApp(DevicePreview(
       enabled: !kReleaseMode, builder: (context) => const MyApp()));
 }
