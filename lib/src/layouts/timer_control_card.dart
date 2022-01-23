@@ -21,8 +21,11 @@ class TimerControlCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color? themePrimaryColor = Theme.of(context).textTheme.bodyText1?.color;
+    final width = MediaQuery.of(context).size.width;
+    // !FIX LAYOUT HERE
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 0.5.w, vertical: 25),
+      padding:
+          EdgeInsets.symmetric(horizontal: width / 150, vertical: width / 18),
       decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
