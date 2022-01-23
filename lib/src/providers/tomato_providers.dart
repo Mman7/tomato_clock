@@ -11,8 +11,10 @@ class TomatoCount with ChangeNotifier {
   int get restCountMinute => _restCountMinute;
 
   intialCurrentTomato() async {
-    getCountingTime(databaseName: 'currentTomato')
-        .then((value) => _tomatoCount = value);
+    await getCountingTime(databaseName: 'currentTomato').then((value) {
+      _tomatoCount = value ?? 0;
+      notifyListeners();
+    });
   }
 
   /// value type : int
