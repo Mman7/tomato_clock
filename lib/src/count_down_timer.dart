@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_background/flutter_background.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
+
+import 'background_app.dart';
 
 class CountDownTimer extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
@@ -24,7 +27,7 @@ class CountDownTimer extends StatefulWidget {
 
 class _CountDownTimerState extends State<CountDownTimer> {
   Timer? timer;
-  late int maxSeconds = widget.seconds; // widget.seconds
+  late int maxSeconds = 60; // widget.seconds
   late int seconds = maxSeconds;
   late final countingDatabase = context.read<TomatoCount>();
   late final currentStatus = context.read<CurrentStatus>();
@@ -32,14 +35,14 @@ class _CountDownTimerState extends State<CountDownTimer> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<TomatoCount>()
-        .getCountingTime(databaseName: databaseName)
-        .then((value) => setState(() {
-              maxSeconds = value ?? maxSeconds;
-              seconds = value ?? maxSeconds;
-            }));
-    Future.delayed(const Duration(milliseconds: 1), () => resetTimer());
+    // context
+    //     .read<TomatoCount>()
+    //     .getCountingTime(databaseName: databaseName)
+    //     .then((value) => setState(() {
+    //           maxSeconds = value ?? maxSeconds;
+    //           seconds = value ?? maxSeconds;
+    //         }));
+    // Future.delayed(const Duration(milliseconds: 1), () => resetTimer());
   }
 
   increaseTime() {
@@ -66,25 +69,43 @@ class _CountDownTimerState extends State<CountDownTimer> {
     return '${getParsedTime(min.toString())}:${getParsedTime(sec.toString())}';
   }
 
-  playTimer() {
+  playTimer() async {
     final isRunning = timer == null ? false : timer!.isActive;
     if (isRunning) return;
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        seconds--;
+    bool hasPermissions = await FlutterBackground.hasPermissions;
+    if (hasPermissions) {
+      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        int? time() {
+          var length = seconds.toString().length;
+          if (length == 2) return int.parse(seconds.toString()[1]);
+          return int.parse(seconds.toString()[0]);
+        }
+
+        setState(() {
+          seconds--;
+        });
+        if (time() == 9) BackgroundApp().runBackgroundApp();
+        print('time checking $seconds');
+        if (seconds <= 0 || seconds.isNegative) timesUp();
       });
-      print('time checking $seconds');
-      if (seconds <= 0 || seconds.isNegative) timesUp();
-    });
-    currentStatus.changeStatus(value: databaseName);
+      currentStatus.changeStatus(value: databaseName);
+    } else {
+      BackgroundApp().intialBackgroundApp();
+    }
   }
 
   pauseTimer() {
+    bool enabled = FlutterBackground.isBackgroundExecutionEnabled;
+    if (enabled) BackgroundApp().stopBackgroundApp();
     timer?.cancel();
     () => widget.onStart();
   }
 
-  resetTimer() {
+  resetTimer() async {
+    bool hasPermissions = await FlutterBackground.hasPermissions;
+    if (!hasPermissions) BackgroundApp().intialBackgroundApp();
+    bool enabled = FlutterBackground.isBackgroundExecutionEnabled;
+    if (enabled) BackgroundApp().stopBackgroundApp();
     timer?.cancel();
     setState(() {
       seconds = maxSeconds;
@@ -94,9 +115,10 @@ class _CountDownTimerState extends State<CountDownTimer> {
 
   timesUp() {
     timer?.cancel();
+    BackgroundApp().stopBackgroundApp();
+    widget.onFinish();
     setState(() {
       seconds = maxSeconds;
-      widget.onFinish();
     });
   }
 
@@ -109,6 +131,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
   @override
   Widget build(BuildContext context) {
     Color? themePrimaryColor = Theme.of(context).textTheme.bodyText1?.color;
+    final height = MediaQuery.of(context).size.height;
     return Column(
       children: [
         Row(
@@ -146,6 +169,9 @@ class _CountDownTimerState extends State<CountDownTimer> {
                   )),
             ),
           ],
+        ),
+        SizedBox(
+          height: height / 110,
         ),
         Stack(
           children: [
