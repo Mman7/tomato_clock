@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
 
@@ -130,8 +130,8 @@ class _CountDownTimerState extends State<CountDownTimer> {
             Text(
               '${secondsToMinutes(seconds: seconds)}',
               style: TextStyle(
+                  fontSize: ResponsiveFlutter.of(context).fontSize(3),
                   color: themePrimaryColor,
-                  fontSize: 6.w,
                   fontWeight: FontWeight.w700),
             ),
             Material(
