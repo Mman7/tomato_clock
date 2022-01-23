@@ -8,6 +8,7 @@ import 'package:sizer/sizer.dart';
 import 'package:workmanager/workmanager.dart';
 // Providers
 
+import 'src/background_app.dart';
 import 'src/layouts/bottom_history_bar.dart';
 import 'src/notification.dart';
 import 'src/providers/current_status_provider.dart';
@@ -28,12 +29,14 @@ void callbackDispatcher() {
 }
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  BackgroundApp().intialBackgroundApp();
+
   /// https://stackoverflow.com/a/66057043
   ///
   // if build use:
   // flutter build apk --split-per-abi --no-shrink
   // or else it will not working
-  WidgetsFlutterBinding.ensureInitialized();
   Workmanager().initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher
       isInDebugMode:
@@ -109,10 +112,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     icon: const Icon(Icons.refresh))),
           )
         ],
-        leading: Tooltip(
-            triggerMode: TooltipTriggerMode.tap,
-            message: 'Power saving might timer',
-            child: Icon(Icons.info_outline_rounded)),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
         shape: const RoundedRectangleBorder(
