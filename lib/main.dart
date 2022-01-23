@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:tomato_clock/src/tomato_database.dart';
 import 'package:sizer/sizer.dart';
 import 'package:workmanager/workmanager.dart';
@@ -108,15 +109,20 @@ class _MyHomePageState extends State<MyHomePage> {
                     icon: const Icon(Icons.refresh))),
           )
         ],
+        leading: Tooltip(
+            triggerMode: TooltipTriggerMode.tap,
+            message: 'Power saving might timer',
+            child: Icon(Icons.info_outline_rounded)),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20))),
-        title: const Text(
+        title: Text(
           'Tomato Clock',
-          style: TextStyle(fontSize: 25),
+          style:
+              TextStyle(fontSize: ResponsiveFlutter.of(context).fontSize(3.5)),
         ),
       ),
       body: CustomGradientBackground(
