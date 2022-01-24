@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:wakelock/wakelock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background/flutter_background.dart';
 import 'package:provider/provider.dart';
@@ -70,6 +70,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
   }
 
   playTimer() async {
+    Wakelock.enable();
     final isRunning = timer == null ? false : timer!.isActive;
     if (isRunning) return;
     bool hasPermissions = await FlutterBackground.hasPermissions;
@@ -84,28 +85,30 @@ class _CountDownTimerState extends State<CountDownTimer> {
         setState(() {
           seconds--;
         });
-        if (time() == 9) BackgroundApp().runBackgroundApp();
+        if (time() == 9) BackgroundApp.runBackgroundApp();
         print('time checking $seconds');
         if (seconds <= 0 || seconds.isNegative) timesUp();
       });
       currentStatus.changeStatus(value: databaseName);
     } else {
-      BackgroundApp().intialBackgroundApp();
+      BackgroundApp.intialBackgroundApp();
     }
   }
 
   pauseTimer() {
+    Wakelock.disable();
     bool enabled = FlutterBackground.isBackgroundExecutionEnabled;
-    if (enabled) BackgroundApp().stopBackgroundApp();
+    if (enabled) BackgroundApp.stopBackgroundApp();
     timer?.cancel();
     () => widget.onStart();
   }
 
   resetTimer() async {
+    Wakelock.disable();
     bool hasPermissions = await FlutterBackground.hasPermissions;
-    if (!hasPermissions) BackgroundApp().intialBackgroundApp();
+    if (!hasPermissions) BackgroundApp.intialBackgroundApp();
     bool enabled = FlutterBackground.isBackgroundExecutionEnabled;
-    if (enabled) BackgroundApp().stopBackgroundApp();
+    if (enabled) BackgroundApp.stopBackgroundApp();
     timer?.cancel();
     setState(() {
       seconds = maxSeconds;
@@ -115,7 +118,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
 
   timesUp() {
     timer?.cancel();
-    BackgroundApp().stopBackgroundApp();
+    BackgroundApp.stopBackgroundApp();
     widget.onFinish();
     setState(() {
       seconds = maxSeconds;
