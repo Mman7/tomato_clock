@@ -30,7 +30,7 @@ void callbackDispatcher() {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  BackgroundApp().intialBackgroundApp();
+  BackgroundApp.intialBackgroundApp();
 
   /// https://stackoverflow.com/a/66057043
   ///
