@@ -45,6 +45,7 @@ dependencies:
   responsive_flutter: ^0.0.4
   shared_preferences: ^2.0.12
   sizer: ^2.0.15
+  wakelock: ^0.6.1
   workmanager: ^0.4.1
 
 dev_dependencies:
