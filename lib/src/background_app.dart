@@ -1,7 +1,7 @@
 import 'package:flutter_background/flutter_background.dart';
 
 class BackgroundApp {
-  intialBackgroundApp() async {
+  static intialBackgroundApp() async {
     const androidConfig = FlutterBackgroundAndroidConfig(
       notificationTitle: "flutter_background example app",
       notificationText:
@@ -17,12 +17,12 @@ class BackgroundApp {
     await FlutterBackground.initialize(androidConfig: androidConfig);
   }
 
-  runBackgroundApp() async {
+  static runBackgroundApp() async {
     print('activated background');
     await FlutterBackground.enableBackgroundExecution();
   }
 
-  stopBackgroundApp() async {
+  static stopBackgroundApp() async {
     print('deactivated background');
     await FlutterBackground.disableBackgroundExecution();
   }
