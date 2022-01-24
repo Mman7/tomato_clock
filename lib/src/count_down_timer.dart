@@ -85,7 +85,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
         setState(() {
           seconds--;
         });
-        if (time() == 9) BackgroundApp.runBackgroundApp();
+        if (time() == 9 || time() == 4) BackgroundApp.runBackgroundApp();
         print('time checking $seconds');
         if (seconds <= 0 || seconds.isNegative) timesUp();
       });
