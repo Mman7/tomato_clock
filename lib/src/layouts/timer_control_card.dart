@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:sizer/sizer.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 
 import '../count_down_timer.dart';
 
@@ -43,11 +43,11 @@ class TimerControlCard extends StatelessWidget {
             title,
             style: TextStyle(
                 color: themePrimaryColor,
-                fontSize: 20,
+                fontSize: ResponsiveFlutter.of(context).fontSize(2.5),
                 fontWeight: FontWeight.w700),
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 50,
           ),
           CountDownTimer(
             databaseName: title,
