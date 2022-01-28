@@ -5,6 +5,7 @@ import 'package:tomato_clock/src/providers/tomato_providers.dart';
 import 'package:tomato_clock/src/tomato_database.dart';
 
 import '../notification.dart';
+import 'interactable_widget.dart';
 import 'timer_control_card.dart';
 import '../show_dialog.dart';
 
@@ -16,6 +17,7 @@ class TimerController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _status = context.watch<CurrentStatus>().status;
+    final width = MediaQuery.of(context).size.width;
     double statusChecker(value) {
       if (_status == null) return 1;
       return _status == value ? 1 : 0.5;
@@ -26,9 +28,10 @@ class TimerController extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Stack(
-            children: [
-              Opacity(
+          Expanded(
+            child: InteractableWidget(
+              canInteract: statusChecker('focus') != 1,
+              child: Opacity(
                 opacity: statusChecker('focus'),
                 child: TimerControlCard(
                   title: 'Focus',
@@ -60,16 +63,15 @@ class TimerController extends StatelessWidget {
                   },
                 ),
               ),
-              if (statusChecker('focus') != 1)
-                Positioned.fill(
-                    child: Container(
-                  color: Colors.transparent,
-                ))
-            ],
+            ),
           ),
-          Stack(
-            children: [
-              Opacity(
+          SizedBox(
+            width: width / 15,
+          ),
+          Expanded(
+            child: InteractableWidget(
+              canInteract: statusChecker('rest') != 1,
+              child: Opacity(
                 opacity: statusChecker('rest'),
                 child: TimerControlCard(
                   title: 'Rest',
@@ -87,13 +89,7 @@ class TimerController extends StatelessWidget {
                   },
                 ),
               ),
-              if (statusChecker('rest') != 1)
-                Positioned.fill(
-                  child: Container(
-                    color: Colors.transparent,
-                  ),
-                )
-            ],
+            ),
           ),
         ],
       ),
