@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
-import 'package:tomato_clock/src/tomato_database.dart';
+import 'package:tomato_clock/src/providers/tomato_database.dart';
 
-import '../notification.dart';
+import '../utils/notification.dart';
 import 'interactable_widget.dart';
 import 'timer_control_card.dart';
-import '../show_dialog.dart';
+import '../utils/show_dialog.dart';
 
 class TimerController extends StatelessWidget {
   const TimerController({

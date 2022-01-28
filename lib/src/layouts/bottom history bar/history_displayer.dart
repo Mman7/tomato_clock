@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 
-import '../providers/tomato_providers.dart';
-import '../tomato_database.dart';
-import 'custom_gradient_background.dart';
+import '../../providers/tomato_providers.dart';
+import '../../providers/tomato_database.dart';
+import '../custom_gradient_background.dart';
 import 'history_tomato_card.dart';
 
 class HistoryDisplayer extends StatefulWidget {

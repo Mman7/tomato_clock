@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 
-import '../count_down_timer.dart';
+import '../utils/count_down_timer.dart';
 
 class TimerControlCard extends StatelessWidget {
   const TimerControlCard(
