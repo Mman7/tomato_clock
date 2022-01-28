@@ -5,12 +5,10 @@ class TomatoCard extends StatefulWidget {
   const TomatoCard({
     Key? key,
     required this.date,
-    required this.svgHeight,
     required this.tomatoCount,
   }) : super(key: key);
 
   final String date;
-  final double svgHeight;
   final int tomatoCount;
 
   @override
@@ -21,6 +19,7 @@ class _TomatoCardState extends State<TomatoCard> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       title: Text(
         widget.date.toString(),
         style: TextStyle(
@@ -33,7 +32,7 @@ class _TomatoCardState extends State<TomatoCard> {
           children: [
             SvgPicture.asset(
               'assets/tomato.svg',
-              width: widget.svgHeight,
+              width: MediaQuery.of(context).size.height / 15,
             ),
             const SizedBox(
               width: 10,
