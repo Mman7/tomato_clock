@@ -108,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Tooltip(
                 message: 'Refresh Tomato Count',
                 child: IconButton(
+                    iconSize: ResponsiveFlutter.of(context).fontSize(2.5),
                     onPressed: () => tomatoCount.cleanTomatoCount(),
                     icon: const Icon(Icons.refresh))),
           )
@@ -121,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(
           'Tomato Clock',
           style:
-              TextStyle(fontSize: ResponsiveFlutter.of(context).fontSize(3.5)),
+              TextStyle(fontSize: ResponsiveFlutter.of(context).fontSize(2.75)),
         ),
       ),
       body: CustomGradientBackground(
