@@ -76,15 +76,14 @@ class _CountDownTimerState extends State<CountDownTimer> {
     bool hasPermissions = await FlutterBackground.hasPermissions;
     if (hasPermissions) {
       timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        int? time() {
-          var length = seconds.toString().length;
-          if (length == 2) return int.parse(seconds.toString()[1]);
-          return int.parse(seconds.toString()[0]);
-        }
-
         setState(() {
           seconds--;
         });
+        int? time() {
+          var length = seconds.toString().length;
+          return int.parse(seconds.toString()[length - 1]);
+        }
+
         if (time() == 9 || time() == 4) BackgroundApp.runBackgroundApp();
         print('time checking $seconds');
         if (seconds <= 0 || seconds.isNegative) timesUp();
@@ -138,16 +137,16 @@ class _CountDownTimerState extends State<CountDownTimer> {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Material(
               color: Colors.transparent,
               child: IconButton(
                   alignment: Alignment.center,
                   onPressed: () => increaseTime(),
-                  padding: const EdgeInsets.all(3),
+                  padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
+                  iconSize: ResponsiveFlutter.of(context).fontSize(2.5),
                   icon: Icon(
                     Icons.add_circle,
                     color: themePrimaryColor,
@@ -163,9 +162,10 @@ class _CountDownTimerState extends State<CountDownTimer> {
             Material(
               color: Colors.transparent,
               child: IconButton(
-                  padding: const EdgeInsets.all(3),
+                  padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                   onPressed: () => decreaseTime(),
+                  iconSize: ResponsiveFlutter.of(context).fontSize(2.5),
                   icon: Icon(
                     Icons.remove_circle,
                     color: Theme.of(context).textTheme.bodyText1?.color,
@@ -174,38 +174,36 @@ class _CountDownTimerState extends State<CountDownTimer> {
           ],
         ),
         SizedBox(
-          height: height / 110,
+          height: height / 50,
         ),
-        Stack(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                customIconButton(
-                  context: context,
-                  icon: Icons.play_arrow_rounded,
-                  callback: () => playTimer(),
-                ),
-                customIconButton(
-                  context: context,
-                  icon: Icons.pause,
-                  callback: () => pauseTimer(),
-                ),
-                customIconButton(
-                  context: context,
-                  icon: Icons.restore,
-                  callback: () => resetTimer(),
-                ),
-              ],
+            customIconButton(
+              context: context,
+              icon: Icons.play_arrow_rounded,
+              callback: () => playTimer(),
+            ),
+            customIconButton(
+              context: context,
+              icon: Icons.pause,
+              callback: () => pauseTimer(),
+            ),
+            customIconButton(
+              context: context,
+              icon: Icons.restore,
+              callback: () => resetTimer(),
             ),
           ],
+        ),
+        SizedBox(
+          height: height / 45,
         ),
       ],
     );
   }
 
-  Material customIconButton(
+  customIconButton(
       {required BuildContext context,
       required IconData icon,
       required VoidCallback callback}) {
@@ -213,11 +211,13 @@ class _CountDownTimerState extends State<CountDownTimer> {
       color: Colors.transparent,
       child: IconButton(
           alignment: Alignment.center,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
           onPressed: () => callback(),
           icon: Icon(
             icon,
             color: Theme.of(context).textTheme.bodyText1?.color,
-            size: 35,
+            size: ResponsiveFlutter.of(context).fontSize(3.5),
           )),
     );
   }
