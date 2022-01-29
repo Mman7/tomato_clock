@@ -3,14 +3,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
-import 'package:tomato_clock/src/tomato_database.dart';
+import 'package:tomato_clock/src/providers/tomato_database.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:sizer/sizer.dart';
 import 'package:workmanager/workmanager.dart';
 // Providers
 
-import 'src/background_app.dart';
-import 'src/layouts/bottom_history_bar.dart';
-import 'src/notification.dart';
+import 'src/utils/background_app.dart';
+import 'src/layouts/bottom history bar/bottom_history_bar.dart';
+import 'src/utils/notification.dart';
 import 'src/providers/current_status_provider.dart';
 
 import 'src/layouts/timer_controller.dart';
@@ -102,6 +103,20 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        leading: Tooltip(
+            message: 'History',
+            child: IconButton(
+                icon: const Icon(Icons.history),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          reverseDuration: const Duration(milliseconds: 150),
+                          duration: const Duration(milliseconds: 150),
+                          curve: Curves.easeInOut,
+                          type: PageTransitionType.leftToRight,
+                          child: const BottomHistoryBar()));
+                })),
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 3.w),
@@ -150,7 +165,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   TimerController(),
                 ],
               ),
-              const BottomHistoryBar()
             ],
           ),
         ),
