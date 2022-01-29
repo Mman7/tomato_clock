@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           duration: const Duration(milliseconds: 150),
                           curve: Curves.easeInOut,
                           type: PageTransitionType.leftToRight,
-                          child: const BottomHistoryBar()));
+                          child: const HistoryPage()));
                 })),
         actions: [
           Padding(
