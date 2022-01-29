@@ -10,7 +10,7 @@ import 'package:workmanager/workmanager.dart';
 // Providers
 
 import 'src/utils/background_app.dart';
-import 'src/layouts/bottom history bar/bottom_history_bar.dart';
+import 'src/layouts/History/history_page.dart';
 import 'src/utils/notification.dart';
 import 'src/providers/current_status_provider.dart';
 
