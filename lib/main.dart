@@ -7,15 +7,18 @@ import 'package:tomato_clock/src/providers/tomato_database.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sizer/sizer.dart';
 import 'package:workmanager/workmanager.dart';
-// Providers
 
-import 'src/utils/background_app.dart';
-import 'src/layouts/History/history_page.dart';
-import 'src/utils/notification.dart';
+//* Providers
+import 'src/providers/tomato_providers.dart';
 import 'src/providers/current_status_provider.dart';
 
+//* Utils
+import 'src/utils/background_app.dart';
+import 'src/utils/notification.dart';
+
+//* Layout
+import 'src/layouts/History/history_page.dart';
 import 'src/layouts/timer_controller.dart';
-import 'src/providers/tomato_providers.dart';
 import 'src/layouts/custom_gradient_background.dart';
 import 'src/layouts/theme.dart';
 import 'src/layouts/tomato_count_card.dart';
