@@ -39,7 +39,7 @@ void main() async {
   /// https://stackoverflow.com/a/66057043
   ///
   // if build use:
-  // flutter build apk --split-per-abi --no-shrink
+  // flutter build apk --split-per-abi --no-shrink --no-sound-null-safety
   // or else it will not working
   Workmanager().initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher
