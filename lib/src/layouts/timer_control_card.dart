@@ -29,12 +29,13 @@ class TimerControlCard extends StatelessWidget {
       decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-                color: Colors.black.withOpacity(0.25),
-                offset: const Offset(0, 5),
-                spreadRadius: 1,
-                blurRadius: 4)
+              color: Colors.black12,
+              spreadRadius: 5,
+              blurRadius: 10,
+              offset: Offset(0, 10),
+            ),
           ],
-          color: HexColor('#E5FFEC'),
+          color: Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

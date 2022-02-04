@@ -23,7 +23,7 @@ class _TomatoListState extends State<TomatoList> {
     final height = MediaQuery.of(context).size.height / 10;
     return Container(
       decoration: BoxDecoration(
-          color: HexColor('#E5FFEC'),
+          color: Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(10))),
       padding: const EdgeInsets.all(15.0),
       height: height,

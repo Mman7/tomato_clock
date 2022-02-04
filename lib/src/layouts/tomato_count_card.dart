@@ -28,10 +28,11 @@ class TomatoListCard extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black.withOpacity(0.25),
-                    offset: const Offset(0, 5),
-                    spreadRadius: 2,
-                    blurRadius: 5)
+                  color: Colors.black12,
+                  spreadRadius: 5,
+                  blurRadius: 10,
+                  offset: Offset(0, 10),
+                ),
               ],
             ),
             child: const TomatoList(),
