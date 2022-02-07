@@ -6,7 +6,6 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:tomato_clock/src/providers/tomato_database.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sizer/sizer.dart';
-import 'package:workmanager/workmanager.dart';
 
 //* Providers
 import 'src/providers/tomato_providers.dart';
@@ -23,33 +22,19 @@ import 'src/layouts/custom_gradient_background.dart';
 import 'src/layouts/theme.dart';
 import 'src/layouts/tomato_count_card.dart';
 
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) {
-    if (task == 'simpleTask') {
-      print('exec simpleTask');
-    }
-    return Future.value(true);
-  });
-}
+/// https://stackoverflow.com/a/66057043
+///
+// if build use:
+// flutter build apk --split-per-abi --no-shrink --no-sound-null-safety
+// or else it will not working
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   BackgroundApp.intialBackgroundApp();
 
-  /// https://stackoverflow.com/a/66057043
-  ///
-  // if build use:
-  // flutter build apk --split-per-abi --no-shrink --no-sound-null-safety
-  // or else it will not working
-  Workmanager().initialize(
-      callbackDispatcher, // The top level function, aka callbackDispatcher
-      isInDebugMode:
-          false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
-      );
-  Workmanager().registerPeriodicTask('1', 'simpeTask',
-      frequency: const Duration(minutes: 15));
   runApp(DevicePreview(
       enabled: !kReleaseMode, builder: (context) => const MyApp()));
+  // runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
