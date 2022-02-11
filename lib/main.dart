@@ -22,6 +22,8 @@ import 'src/layouts/custom_gradient_background.dart';
 import 'src/layouts/theme.dart';
 import 'src/layouts/tomato_count_card.dart';
 
+import 'package:flutter_vibrate/flutter_vibrate.dart';
+
 /// https://stackoverflow.com/a/66057043
 ///
 // if build use:
@@ -95,6 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
             message: 'History',
             child: IconButton(
                 icon: const Icon(Icons.history),
+                iconSize: ResponsiveFlutter.of(context).fontSize(2.75),
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -111,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Tooltip(
                 message: 'Refresh Tomato Count',
                 child: IconButton(
-                    iconSize: ResponsiveFlutter.of(context).fontSize(2.5),
+                    iconSize: ResponsiveFlutter.of(context).fontSize(2.75),
                     onPressed: () => tomatoCount.cleanTomatoCount(),
                     icon: const Icon(Icons.refresh))),
           )

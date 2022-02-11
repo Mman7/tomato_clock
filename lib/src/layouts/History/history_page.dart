@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:tomato_clock/src/layouts/custom_gradient_background.dart';
 import '../../providers/tomato_database.dart';

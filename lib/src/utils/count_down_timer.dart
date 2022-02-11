@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background/flutter_background.dart';
 import 'package:provider/provider.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
@@ -45,6 +47,13 @@ class _CountDownTimerState extends State<CountDownTimer> {
     Future.delayed(const Duration(milliseconds: 1), () => resetTimer());
   }
 
+  vibrater() async {
+    bool canVibrate = await Vibrate.canVibrate;
+    if (canVibrate) {
+      Vibrate.vibrate();
+    }
+  }
+
   increaseTime() {
     setState(() => {seconds += 60, maxSeconds += 60});
     countingDatabase.saveCountingTime(
@@ -85,7 +94,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
         }
 
         if (time() == 9 || time() == 4) BackgroundApp.runBackgroundApp();
-        print('time checking $seconds');
+        debugPrint('time checking $seconds');
         if (seconds <= 0 || seconds.isNegative) timesUp();
       });
       currentStatus.changeStatus(value: databaseName);
@@ -119,6 +128,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
     timer?.cancel();
     BackgroundApp.stopBackgroundApp();
     widget.onFinish();
+    vibrater();
     setState(() {
       seconds = maxSeconds;
     });

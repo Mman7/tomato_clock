@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
 
@@ -22,9 +21,9 @@ class _TomatoListState extends State<TomatoList> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height / 10;
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
+          borderRadius: BorderRadius.all(Radius.circular(10))),
       padding: const EdgeInsets.all(15.0),
       height: height,
       child: Row(
