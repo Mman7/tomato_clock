@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:responsive_flutter/responsive_flutter.dart';
 import 'tomato_list.dart';
 
 class TomatoListCard extends StatelessWidget {
@@ -17,7 +16,7 @@ class TomatoListCard extends StatelessWidget {
         children: [
           Text('Tomato Count : ',
               style: TextStyle(
-                  fontSize: ResponsiveFlutter.of(context).fontSize(2.75),
+                  fontSize: 27,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).primaryColorDark)),
           const SizedBox(

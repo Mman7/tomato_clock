@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:responsive_flutter/responsive_flutter.dart';
 
 import '../utils/count_down_timer.dart';
 
@@ -20,7 +19,7 @@ class TimerControlCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? themePrimaryColor = Theme.of(context).textTheme.bodyText1?.color;
+    Color? themePrimaryColor = Theme.of(context).textTheme.bodyLarge?.color;
     final width = MediaQuery.of(context).size.width;
     // !FIX LAYOUT HERE
     return Container(
@@ -44,7 +43,7 @@ class TimerControlCard extends StatelessWidget {
             title,
             style: TextStyle(
                 color: themePrimaryColor,
-                fontSize: ResponsiveFlutter.of(context).fontSize(2.5),
+                fontSize: 25,
                 fontWeight: FontWeight.w700),
           ),
           SizedBox(

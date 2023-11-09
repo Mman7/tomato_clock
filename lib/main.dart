@@ -1,11 +1,7 @@
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:tomato_clock/src/providers/tomato_database.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:sizer/sizer.dart';
 
 //* Providers
 import 'src/providers/tomato_providers.dart';
@@ -22,8 +18,6 @@ import 'src/layouts/custom_gradient_background.dart';
 import 'src/layouts/theme.dart';
 import 'src/layouts/tomato_count_card.dart';
 
-import 'package:flutter_vibrate/flutter_vibrate.dart';
-
 /// https://stackoverflow.com/a/66057043
 ///
 // if build use:
@@ -34,9 +28,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   BackgroundApp.intialBackgroundApp();
 
-  runApp(DevicePreview(
-      enabled: !kReleaseMode, builder: (context) => const MyApp()));
-  // runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -53,15 +45,10 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(create: (_) => TomatoDataBase())
       ],
-      child: Sizer(
-        builder: (context, orientation, deviceType) => MaterialApp(
-          useInheritedMediaQuery: true,
-          locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
-          title: 'Tomato Clock',
-          theme: theme(context),
-          home: const MyHomePage(),
-        ),
+      child: MaterialApp(
+        title: 'Tomato Clock',
+        theme: theme(context),
+        home: const MyHomePage(),
       ),
     );
   }
@@ -97,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
             message: 'History',
             child: IconButton(
                 icon: const Icon(Icons.history),
-                iconSize: ResponsiveFlutter.of(context).fontSize(2.75),
+                iconSize: 25,
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -110,11 +97,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 })),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 3.w),
+            padding: const EdgeInsets.only(right: 30),
             child: Tooltip(
                 message: 'Refresh Tomato Count',
                 child: IconButton(
-                    iconSize: ResponsiveFlutter.of(context).fontSize(2.75),
+                    iconSize: 25,
                     onPressed: () => tomatoCount.cleanTomatoCount(),
                     icon: const Icon(Icons.refresh))),
           )
@@ -125,10 +112,9 @@ class _MyHomePageState extends State<MyHomePage> {
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20))),
-        title: Text(
+        title: const Text(
           'Tomato Clock',
-          style:
-              TextStyle(fontSize: ResponsiveFlutter.of(context).fontSize(2.75)),
+          style: TextStyle(fontSize: 25),
         ),
       ),
       body: CustomGradientBackground(
@@ -143,12 +129,12 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.only(
             top: appBarHeight,
           ),
-          child: Stack(
+          child: const Stack(
             clipBehavior: Clip.hardEdge,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
+                children: [
                   TomatoListCard(),
                   SizedBox(
                     height: 35,

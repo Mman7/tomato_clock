@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:tomato_clock/src/layouts/custom_gradient_background.dart';
 import '../../providers/tomato_database.dart';
 import 'history_displayer.dart';
@@ -15,10 +14,9 @@ class HistoryPage extends StatelessWidget {
         providers: [ChangeNotifierProvider(create: (_) => TomatoDataBase())],
         child: Scaffold(
             appBar: AppBar(
-              title: Text(
+              title: const Text(
                 'History',
-                style: TextStyle(
-                    fontSize: ResponsiveFlutter.of(context).fontSize(3)),
+                style: TextStyle(fontSize: 30),
               ),
               backgroundColor: Theme.of(context).primaryColor,
             ),

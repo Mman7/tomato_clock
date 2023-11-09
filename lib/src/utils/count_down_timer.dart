@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_background/flutter_background.dart';
 import 'package:provider/provider.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
 
@@ -142,7 +141,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
 
   @override
   Widget build(BuildContext context) {
-    Color? themePrimaryColor = Theme.of(context).textTheme.bodyText1?.color;
+    Color? themePrimaryColor = Theme.of(context).textTheme.bodyLarge?.color;
     final height = MediaQuery.of(context).size.height;
     return Column(
       children: [
@@ -156,7 +155,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
                   onPressed: () => increaseTime(),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
-                  iconSize: ResponsiveFlutter.of(context).fontSize(2.5),
+                  iconSize: 25,
                   icon: Icon(
                     Icons.add_circle,
                     color: themePrimaryColor,
@@ -165,7 +164,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
             Text(
               '${secondsToMinutes(seconds: seconds)}',
               style: TextStyle(
-                  fontSize: ResponsiveFlutter.of(context).fontSize(3),
+                  fontSize: 30,
                   color: themePrimaryColor,
                   fontWeight: FontWeight.w700),
             ),
@@ -175,10 +174,10 @@ class _CountDownTimerState extends State<CountDownTimer> {
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                   onPressed: () => decreaseTime(),
-                  iconSize: ResponsiveFlutter.of(context).fontSize(2.5),
+                  iconSize: 25,
                   icon: Icon(
                     Icons.remove_circle,
-                    color: Theme.of(context).textTheme.bodyText1?.color,
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
                   )),
             ),
           ],
@@ -226,8 +225,8 @@ class _CountDownTimerState extends State<CountDownTimer> {
           onPressed: () => callback(),
           icon: Icon(
             icon,
-            color: Theme.of(context).textTheme.bodyText1?.color,
-            size: ResponsiveFlutter.of(context).fontSize(3.5),
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+            size: 35,
           )),
     );
   }

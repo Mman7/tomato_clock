@@ -12,8 +12,8 @@ ThemeData theme(BuildContext context) {
               color: Theme.of(context).primaryColor),
           contentTextStyle: TextStyle(
               fontSize: 17,
-              color: Theme.of(context).textTheme.bodyText1?.color),
+              color: Theme.of(context).textTheme.bodyLarge?.color),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)))),
-      textTheme: TextTheme(bodyText1: TextStyle(color: HexColor('#0D4721'))));
+      textTheme: TextTheme(bodyLarge: TextStyle(color: HexColor('#0D4721'))));
 }

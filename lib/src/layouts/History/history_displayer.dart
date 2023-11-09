@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:responsive_flutter/responsive_flutter.dart';
 import '../../providers/tomato_database.dart';
 import 'history_tomato_card.dart';
 
@@ -47,9 +46,7 @@ class HistoryDisplayer extends StatelessWidget {
     return Center(
         child: Text(
       'Try to press the play button',
-      style: TextStyle(
-          fontSize: ResponsiveFlutter.of(context).fontSize(2.25),
-          color: Colors.white.withOpacity(0.8)),
+      style: TextStyle(fontSize: 22, color: Colors.white.withOpacity(0.8)),
     ));
   }
 }

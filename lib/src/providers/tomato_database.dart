@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:localstore/localstore.dart';
-import 'package:logger/logger.dart';
 
 class TomatoDataBase with ChangeNotifier {
   final _db = Localstore.instance;
@@ -39,7 +38,6 @@ class TomatoDataBase with ChangeNotifier {
     var id = formatDate(DateTime.now());
     var item = await _db.collection('tomato').doc(id).get();
     var tomatoCountInData = item?.entries.first.value ?? 0;
-    Logger().d(tomatoCountInData);
 
     _db.collection('tomato').doc(id).set({
       'tomatoCount': tomatoCountInData + 1,
