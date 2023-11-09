@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_clock/src/providers/tomato_database.dart';
 import 'package:page_transition/page_transition.dart';
@@ -126,9 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
         firstColor: '#88FFA7',
         secondColor: '#3A754A',
         child: Padding(
-          padding: EdgeInsets.only(
-            top: appBarHeight,
-          ),
+          padding: EdgeInsets.only(top: appBarHeight, left: 20, right: 20),
           child: const Stack(
             clipBehavior: Clip.hardEdge,
             children: [
@@ -136,9 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   TomatoListCard(),
-                  SizedBox(
-                    height: 35,
-                  ),
+                  Gap(35),
                   TimerController(),
                 ],
               ),

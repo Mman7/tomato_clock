@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
+import 'package:gap/gap.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background/flutter_background.dart';
@@ -142,7 +143,6 @@ class _CountDownTimerState extends State<CountDownTimer> {
   @override
   Widget build(BuildContext context) {
     Color? themePrimaryColor = Theme.of(context).textTheme.bodyLarge?.color;
-    final height = MediaQuery.of(context).size.height;
     return Column(
       children: [
         Row(
@@ -182,9 +182,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
             ),
           ],
         ),
-        SizedBox(
-          height: height / 50,
-        ),
+        const Gap(15),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -205,9 +203,9 @@ class _CountDownTimerState extends State<CountDownTimer> {
             ),
           ],
         ),
-        SizedBox(
-          height: height / 45,
-        ),
+        // SizedBox(
+        //   height: height / 45,
+        // ),
       ],
     );
   }

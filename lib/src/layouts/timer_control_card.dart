@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
 import '../utils/count_down_timer.dart';
@@ -46,9 +47,7 @@ class TimerControlCard extends StatelessWidget {
                 fontSize: 25,
                 fontWeight: FontWeight.w700),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 50,
-          ),
+          Gap(15),
           CountDownTimer(
             databaseName: title,
             onFinish: onFinish,
