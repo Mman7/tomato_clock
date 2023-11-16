@@ -1,16 +1,14 @@
-# tomato_clock
+<h1 align="center">Hi 👋, I'm Mack</h1>
+<h3 align="center">A passionate flutter developer from malaysia</h3>
 
-A new Flutter project.
+- 🔭 I’m currently working on **Tomato Clock**
+- Here are some screenshot
 
-## Getting Started
+<img align=left src='https://github.com/Mman7/tomato_clock/assets/70054123/f3540908-c7b3-47ff-8ec6-f3119e8d4c19' width="200px">
 
-This project is a starting point for a Flutter application.
+<img src='https://github.com/Mman7/tomato_clock/assets/70054123/b8a601f0-db48-4fd0-9563-868befaca106' width="200px" >
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<h3 align="left">Languages and Tools:</h3>
+<p align="left"> <a href="https://dart.dev" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/dartlang/dartlang-icon.svg" alt="dart" width="40" height="40"/> </a> <a href="https://flutter.dev" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/flutterio/flutterio-icon.svg" alt="flutter" width="40" height="40"/> </a> </p>
