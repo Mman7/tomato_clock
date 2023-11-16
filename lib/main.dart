@@ -22,8 +22,6 @@ import 'src/utils/notification.dart';
 import 'src/layouts/HistoryView/history_page.dart';
 import 'src/layouts/Theme/theme.dart';
 
-// TODO battery optimizer / show on lock screen
-
 /// https://stackoverflow.com/a/66057043
 ///
 // if build use:

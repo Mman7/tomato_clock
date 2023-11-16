@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:tomato_clock/src/layouts/CustomWidget/custom_gradient_background.dart';
 import 'package:tomato_clock/src/layouts/HistoryView/history_tomato_card.dart';

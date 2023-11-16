@@ -18,12 +18,12 @@ class BackgroundApp {
   }
 
   static runBackgroundApp() async {
-    print('activated background');
+    // print('activated background');
     await FlutterBackground.enableBackgroundExecution();
   }
 
   static stopBackgroundApp() async {
-    print('deactivated background');
+    // print('deactivated background');
     await FlutterBackground.disableBackgroundExecution();
   }
 }

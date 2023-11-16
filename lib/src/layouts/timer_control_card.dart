@@ -69,7 +69,7 @@ class _TimerControlCardState extends State<TimerControlCard>
     if (seconds > minuteToSeconds(60)) seconds = minuteToSeconds(60);
 
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25),
+      padding: const EdgeInsets.symmetric(vertical: 25),
       decoration: const BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -127,7 +127,7 @@ class _TimerControlCardState extends State<TimerControlCard>
                           //
                           Text(
                             seconds <= 60 ? '$time' : timerToText,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 20),
                           ),
                           //
@@ -156,7 +156,7 @@ class _TimerControlCardState extends State<TimerControlCard>
                                       ? null
                                       : {
                                           showSimpleNotification(
-                                              Text("The timer has started"),
+                                              const Text("The timer has started"),
                                               background: Colors.green,
                                               position:
                                                   NotificationPosition.bottom),

@@ -11,8 +11,8 @@ class CountTime {
   static getTimer({databaseName}) async {
     final database = await SharedPreferences.getInstance();
     final data = database.getInt('${databaseName}CountTime');
-    final defaultFocusTime = 25;
-    final restCountTime = 5;
+    const defaultFocusTime = 25;
+    const restCountTime = 5;
     if (databaseName == 'Focus') return data ?? defaultFocusTime;
     if (databaseName == 'Rest') return data ?? restCountTime;
   }
