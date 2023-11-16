@@ -49,6 +49,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  bottom_inset_observer:
+    dependency: transitive
+    description:
+      name: bottom_inset_observer
+      sha256: cbfb01e0e07cc4922052701786d5e607765a6f54e1844f41061abf8744519a7d
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
+  bottom_sheet:
+    dependency: "direct main"
+    description:
+      name: bottom_sheet
+      sha256: "922d43e46e5f3761f5319a08bb06a889f261f98087bcf2a8eceb4203d498bcc3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   characters:
     dependency: transitive
     description:
@@ -304,6 +320,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  optimize_battery:
+    dependency: "direct main"
+    description:
+      name: optimize_battery
+      sha256: "4f0f974addbe54d3a705c1da5bf3a4bdae39502b1b2d2a17f9da1e558a34a4f8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
+  overlay_support:
+    dependency: "direct main"
+    description:
+      name: overlay_support
+      sha256: fc39389bfd94e6985e1e13b2a88a125fc4027608485d2d4e2847afe1b2bb339c
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   page_transition:
     dependency: "direct main"
     description:

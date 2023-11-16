@@ -3,86 +3,90 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
-import 'package:tomato_clock/src/providers/tomato_database.dart';
+import 'package:tomato_clock/src/Database/tomato_database.dart';
+import 'package:tomato_clock/src/utils/background_app.dart';
 
 import '../utils/notification.dart';
-import 'interactable_widget.dart';
+import 'CustomWidget/interactable_widget.dart';
 import 'timer_control_card.dart';
 import '../utils/show_dialog.dart';
 
-class TimerController extends StatelessWidget {
+class TimerController extends StatefulWidget {
   const TimerController({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<TimerController> createState() => _TimerControllerState();
+}
+
+class _TimerControllerState extends State<TimerController> {
+  @override
   Widget build(BuildContext context) {
-    var _status = context.watch<CurrentStatus>().status;
-    double statusChecker(value) {
-      if (_status == null) return 1;
-      return _status == value ? 1 : 0.5;
-    }
+    var interactableFocus = true;
+    var interactableRest = true;
+    var currentState = context.read<CurrentStatus>();
+    var _tomatoCount = context.read<TomatoCount>();
+    var status = context.watch<CurrentStatus>().status;
+    if (status == 'focus') setState(() => interactableRest = false);
+    if (status == 'rest') setState(() => interactableFocus = false);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: InteractableWidget(
-            canInteract: statusChecker('focus') != 1,
-            child: Opacity(
-              opacity: statusChecker('focus'),
-              child: TimerControlCard(
-                title: 'Focus',
-                countMinute: 15,
-                onStart: () =>
-                    context.read<CurrentStatus>().changeStatus(value: 'focus'),
-                onFinish: () {
-                  context.read<TomatoCount>().increaseTomatoCount();
-                  context.read<TomatoDataBase>().increaseTomatoData();
-                  context.read<CurrentStatus>().changeStatus(value: 'rest');
-                  context.read<NotificationService>().instantNotification();
-                  TomatoCount provider = context.read<TomatoCount>();
-                  int tomatoCount = provider.tomatoCount;
+            canInteract: interactableFocus,
+            child: TimerControlCard(
+              title: 'Focus',
+              onStart: () {
+                BackgroundApp.intialBackgroundApp();
+                BackgroundApp.runBackgroundApp();
+                currentState.changeStatus(value: 'focus');
+              },
+              onFinish: () {
+                currentState.changeStatus(value: 'rest');
+                _tomatoCount.increaseTomatoCount();
+                TomatoDataBase.addNewTomatoData();
+                context.read<NotificationService>().instantNotification();
+                BackgroundApp.stopBackgroundApp();
 
-                  if (tomatoCount == 4) {
-                    specialCustomDialog(
-                        context: context,
-                        title: 'Time to Long Rest  ',
-                        msg: 'You can now Rest a little bit longer');
-                    provider.cleanTomatoCount();
-                  } else {
-                    showCustomDialog(
-                        context: context,
-                        title: 'Time to Rest !',
-                        msg:
-                            'You can now rest, press the start button to start counting');
-                  }
-                },
-              ),
+                if (_tomatoCount.tomatoCount == 4) {
+                  _tomatoCount.cleanTomatoCount();
+                  specialCustomDialog(
+                      context: context,
+                      title: 'Time to Long Rest  ',
+                      msg: 'You can now Rest a little bit longer');
+                } else {
+                  showCustomDialog(
+                      context: context,
+                      title: 'Time to Rest !',
+                      msg:
+                          'You can now rest, press the start button to start counting');
+                }
+              },
             ),
           ),
         ),
         const Gap(15),
         Expanded(
           child: InteractableWidget(
-            canInteract: statusChecker('rest') != 1,
-            child: Opacity(
-              opacity: statusChecker('rest'),
-              child: TimerControlCard(
-                title: 'Rest',
-                countMinute: 5,
-                onStart: () =>
-                    context.read<CurrentStatus>().changeStatus(value: 'rest'),
-                onFinish: () {
-                  context.read<CurrentStatus>().changeStatus(value: 'focus');
-                  context.read<NotificationService>().instantNotification();
-                  showCustomDialog(
-                      context: context,
-                      title: 'Time to Focus !',
-                      msg:
-                          "It's time to focus, press the start button to start counting");
-                },
-              ),
+            canInteract: interactableRest,
+            child: TimerControlCard(
+              title: 'Rest',
+              onStart: () {
+                setState(() => interactableFocus = false);
+                currentState.changeStatus(value: 'rest');
+              },
+              onFinish: () {
+                currentState.changeStatus(value: 'focus');
+                context.read<NotificationService>().instantNotification();
+                showCustomDialog(
+                    context: context,
+                    title: 'Time to Focus !',
+                    msg:
+                        "It's time to focus, press the start button to start counting");
+              },
             ),
           ),
         ),

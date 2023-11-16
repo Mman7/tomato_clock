@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 showCustomDialog(
     {required BuildContext context,
     required String title,
-    required String msg}) {
+    required String msg,
+    onPress}) {
   return showDialog(
     context: context,
     builder: (context) => BackdropFilter(
@@ -15,7 +16,8 @@ showCustomDialog(
         duration: const Duration(milliseconds: 400),
         child: AlertDialog(title: Text(title), content: Text(msg), actions: [
           IconButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () =>
+                onPress == null ? Navigator.of(context).pop() : onPress(),
             icon: const Icon(Icons.check),
             color: Colors.blue,
             iconSize: 30,
@@ -46,7 +48,8 @@ specialCustomDialog(
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.white),
                 ),
-                const Icon(Icons.emoji_food_beverage_outlined, color: Colors.white)
+                const Icon(Icons.emoji_food_beverage_outlined,
+                    color: Colors.white)
               ],
             ),
             content: Text(msg, style: const TextStyle(color: Colors.white)),

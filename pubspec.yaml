@@ -29,6 +29,7 @@ environment:
 dependencies:
   after_layout: ^1.2.0
   animate_do: ^2.1.0
+  bottom_sheet: ^4.0.0
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
@@ -42,6 +43,8 @@ dependencies:
   hexcolor: ^3.0.1
   intl: ^0.18.1
   localstore: ^1.2.1
+  optimize_battery: ^0.0.4
+  overlay_support: ^2.1.0
   page_transition: ^2.0.5
   provider: ^6.0.2
   shared_preferences: ^2.0.12

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'tomato_list.dart';
 
 class TomatoListCard extends StatelessWidget {

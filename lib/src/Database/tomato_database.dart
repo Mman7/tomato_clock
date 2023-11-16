@@ -1,40 +1,27 @@
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:localstore/localstore.dart';
 
-class TomatoDataBase with ChangeNotifier {
-  final _db = Localstore.instance;
+class TomatoDataBase {
+  static String formatDate(DateTime date) =>
+      DateFormat("MMMM d yyyy").format(date);
 
-  String formatDate(DateTime date) => DateFormat("MMMM d yyyy").format(date);
-
-  Future<dynamic> fetchData() async {
+  static Future<dynamic> fetchData() async {
+    final _db = Localstore.instance;
     var items = await _db.collection('tomato').get();
     var parseItem = items?.entries.map((e) => e.value).toList();
     return Future.value(parseItem);
   }
 
-  ///  DEBUG ONLY
-  // printAllData() async {
-  //   var items = await _db.collection('tomato').get();
-  //   print(items);
-  // }
-
-  saveTomato() {
+  static saveTomato() {
+    final _db = Localstore.instance;
     _db
         .collection('tomato')
         .doc(formatDate(DateTime.now()))
         .set({'tomatoCount': 1, 'date': formatDate(DateTime.now())});
-    notifyListeners();
   }
 
-  ///  DEBUG ONLY
-  // findDataById(DateTime id) async {
-  //   var item = await _db.collection('tomato').doc(formatDate(id)).get();
-  //   var parseItem = item?.entries.map((e) => e.value);
-  // }
-
-  /// id = DateTime.now()
-  increaseTomatoData() async {
+  static addNewTomatoData() async {
+    final _db = Localstore.instance;
     var id = formatDate(DateTime.now());
     var item = await _db.collection('tomato').doc(id).get();
     var tomatoCountInData = item?.entries.first.value ?? 0;
@@ -43,6 +30,5 @@ class TomatoDataBase with ChangeNotifier {
       'tomatoCount': tomatoCountInData + 1,
       'date': formatDate(DateTime.now())
     });
-    notifyListeners();
   }
 }

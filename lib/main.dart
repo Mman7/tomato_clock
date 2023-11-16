@@ -1,8 +1,14 @@
+//* Package
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:optimize_battery/optimize_battery.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
-import 'package:tomato_clock/src/providers/tomato_database.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:tomato_clock/src/layouts/CustomWidget/custom_gradient_background.dart';
+import 'package:tomato_clock/src/layouts/Tomato_Icon_List/tomato_count_card.dart';
+import 'package:tomato_clock/src/layouts/timer_controller.dart';
+import 'package:tomato_clock/src/utils/show_dialog.dart';
 
 //* Providers
 import 'src/providers/tomato_providers.dart';
@@ -13,17 +19,15 @@ import 'src/utils/background_app.dart';
 import 'src/utils/notification.dart';
 
 //* Layout
-import 'src/layouts/History/history_page.dart';
-import 'src/layouts/timer_controller.dart';
-import 'src/layouts/custom_gradient_background.dart';
-import 'src/layouts/theme.dart';
-import 'src/layouts/tomato_count_card.dart';
+import 'src/layouts/HistoryView/history_page.dart';
+import 'src/layouts/Theme/theme.dart';
+
+// TODO battery optimizer / show on lock screen
 
 /// https://stackoverflow.com/a/66057043
 ///
 // if build use:
-// flutter build apk --split-per-abi --no-shrink --no-sound-null-safety
-// or else it will not working
+// flutter build apk --split-per-abi --no-shrink
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,12 +48,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => NotificationService(),
         ),
-        ChangeNotifierProvider(create: (_) => TomatoDataBase())
       ],
-      child: MaterialApp(
-        title: 'Tomato Clock',
-        theme: theme(context),
-        home: const MyHomePage(),
+      child: OverlaySupport.global(
+        child: MaterialApp(
+          title: 'Tomato Clock',
+          theme: theme(context),
+          home: const MyHomePage(),
+        ),
       ),
     );
   }
@@ -62,7 +67,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   bool isHistoryBasOpen = false;
   historyBarValue() => isHistoryBasOpen
       ? MediaQuery.of(context).size.height / 20
@@ -71,6 +77,22 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    OptimizeBattery.isIgnoringBatteryOptimizations().then((onValue) {
+      setState(() {
+        if (onValue) {
+          // Igonring Battery Optimization
+        } else {
+          // App is under battery optimization
+          showCustomDialog(
+              context: context,
+              onPress: () {
+                OptimizeBattery.openBatteryOptimizationSettings();
+              },
+              title: 'Turn off battery optimization',
+              msg: 'For App working properly please turn battery optimization');
+        }
+      });
+    });
     context.read<NotificationService>().initialize();
   }
 
@@ -87,14 +109,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: const Icon(Icons.history),
                 iconSize: 25,
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          reverseDuration: const Duration(milliseconds: 150),
-                          duration: const Duration(milliseconds: 150),
-                          curve: Curves.easeInOut,
-                          type: PageTransitionType.leftToRight,
-                          child: const HistoryPage()));
+                  Widget bottomSheet(
+                    BuildContext context,
+                    ScrollController scrollController,
+                    double bottomSheetOffset,
+                  ) {
+                    return HistoryPage(
+                      scrollController: scrollController,
+                    );
+                  }
+
+                  showFlexibleBottomSheet(
+                    bottomSheetBorderRadius:
+                        const BorderRadius.all(Radius.circular(15)),
+                    minHeight: 0,
+                    initHeight: 0.5,
+                    maxHeight: 1,
+                    isModal: true,
+                    context: context,
+                    builder: bottomSheet,
+                    anchors: [0, 0.5, 1],
+                    isSafeArea: true,
+                  );
                 })),
         actions: [
           Padding(
@@ -103,7 +139,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 message: 'Refresh Tomato Count',
                 child: IconButton(
                     iconSize: 25,
-                    onPressed: () => tomatoCount.cleanTomatoCount(),
+                    onPressed: () {
+                      context.read<CurrentStatus>().changeToNullStatus();
+                      tomatoCount.cleanTomatoCount();
+                    },
                     icon: const Icon(Icons.refresh))),
           )
         ],
@@ -135,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   TomatoListCard(),
-                  Gap(35),
+                  Gap(30),
                   TimerController(),
                 ],
               ),
