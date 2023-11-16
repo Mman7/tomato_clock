@@ -126,7 +126,7 @@ class _TimerControlCardState extends State<TimerControlCard>
                           ),
                           //
                           Text(
-                            seconds <= 60 ? '$time' : timerToText,
+                            time <= 60 ? '${time.toInt()} sec' : timerToText,
                             style: const TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 20),
                           ),
@@ -156,7 +156,8 @@ class _TimerControlCardState extends State<TimerControlCard>
                                       ? null
                                       : {
                                           showSimpleNotification(
-                                              const Text("The timer has started"),
+                                              const Text(
+                                                  "The timer has started"),
                                               background: Colors.green,
                                               position:
                                                   NotificationPosition.bottom),
