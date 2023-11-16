@@ -1,4 +1,5 @@
 import 'package:after_layout/after_layout.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -7,6 +8,7 @@ import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:tomato_clock/src/layouts/CustomWidget/custom_material.dart';
 import 'package:tomato_clock/src/providers/current_status_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../Database/count_time_database.dart';
 
@@ -61,7 +63,7 @@ class _TimerControlCardState extends State<TimerControlCard>
   @override
   Widget build(BuildContext context) {
     Color? themePrimaryColor = Theme.of(context).textTheme.bodyLarge?.color;
-
+    ScreenUtil().setSp(28);
     //*  Minumum minute
     if (seconds < minuteToSeconds(5)) seconds = minuteToSeconds(5);
 
@@ -110,36 +112,40 @@ class _TimerControlCardState extends State<TimerControlCard>
                 return Column(
                   children: [
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           customMaterial(
                             child: Tooltip(
-                              message: 'Add 5 minute to timer',
+                              message: 'Add 5 minute',
                               child: IconButton(
                                   onPressed: () =>
                                       isButtonDisable ? null : addSeconds(),
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.add_circle,
-                                    size: 30,
+                                    color: Theme.of(context).primaryColorDark,
+                                    size: 30.r,
                                   )),
                             ),
                           ),
                           //
-                          Text(
-                            time <= 60 ? '${time.toInt()} sec' : timerToText,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 20),
-                          ),
+                          Text(time <= 60 ? '${time.toInt()} sec' : timerToText,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: seconds > 300 ? 15.5.sp : 18.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).primaryColorDark,
+                              )),
                           //
                           customMaterial(
                             child: Tooltip(
-                              message: 'reduce 5 minute to timer',
+                              message: 'reduce 5 minute',
                               child: IconButton(
                                   onPressed: () =>
                                       isButtonDisable ? null : reduceSeconds(),
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.remove_circle,
-                                    size: 30,
+                                    size: 30.w,
+                                    color: Theme.of(context).primaryColorDark,
                                   )),
                             ),
                           )
@@ -166,9 +172,10 @@ class _TimerControlCardState extends State<TimerControlCard>
                                           widget.onStart()
                                         };
                                 },
-                                icon: const Icon(
+                                icon: Icon(
                                   Icons.play_arrow_rounded,
-                                  size: 30,
+                                  size: 30.w,
+                                  color: Theme.of(context).primaryColorDark,
                                 )),
                           ),
                         ),
@@ -177,9 +184,10 @@ class _TimerControlCardState extends State<TimerControlCard>
                             message: 'Pause timer',
                             child: IconButton(
                                 onPressed: () => timerController.pause(),
-                                icon: const Icon(
+                                icon: Icon(
                                   Icons.pause,
-                                  size: 30,
+                                  size: 30.w,
+                                  color: Theme.of(context).primaryColorDark,
                                 )),
                           ),
                         ),
@@ -196,9 +204,10 @@ class _TimerControlCardState extends State<TimerControlCard>
                                   final status = context.read<CurrentStatus>();
                                   status.changeToNullStatus();
                                 },
-                                icon: const Icon(
+                                icon: Icon(
                                   Icons.restart_alt_rounded,
-                                  size: 30,
+                                  size: 30.w,
+                                  color: Theme.of(context).primaryColorDark,
                                 )),
                           ),
                         ),
