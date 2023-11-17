@@ -68,25 +68,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  bool isHistoryBasOpen = false;
-  historyBarValue() => isHistoryBasOpen
-      ? MediaQuery.of(context).size.height / 20
-      : MediaQuery.of(context).size.height / 1.25;
-
   checkBatteryOptimize() {
     OptimizeBattery.isIgnoringBatteryOptimizations().then((onValue) {
       setState(() {
         if (onValue) {
-          // Igonring Battery Optimization
+          //* Igonring Battery Optimization
         } else {
-          // App is under battery optimization
-          showCustomDialog(
-              context: context,
-              onPress: () {
-                OptimizeBattery.openBatteryOptimizationSettings();
-              },
-              title: 'Turn off battery optimization',
-              msg: 'For App working properly please turn battery optimization');
+          //* App is under battery optimization
+          setState(() {
+            showCustomDialog(
+                context: context,
+                onPress: () {
+                  OptimizeBattery.openBatteryOptimizationSettings();
+                },
+                title: 'Turn off battery optimization',
+                msg:
+                    'For App working properly please turn battery optimization');
+          });
         }
       });
     });
@@ -101,11 +99,10 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
-    checkBatteryOptimize();
     final appBarHeight = AppBar().preferredSize.height * 2;
     final tomatoCount = context.read<TomatoCount>();
     return ScreenUtilInit(
-      designSize: Size(360, 690),
+      designSize: const Size(360, 690),
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
