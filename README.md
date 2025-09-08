@@ -1,5 +1,3 @@
-<h1 align="center">Hi 👋, I'm Mack</h1>
-<h3 align="center">A passionate flutter developer from malaysia</h3>
 
 - 🔭 I’m currently working on **Tomato Clock**
 - Here are some screenshot
