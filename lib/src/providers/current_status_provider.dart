@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 
+enum CurrentTimer { focus, rest, none }
+
 class CurrentStatus with ChangeNotifier {
   // state only focus or rest
-  String? _currentStatus;
+  CurrentStatus() {
+    _currentStatus = CurrentTimer.none;
+  }
+  CurrentTimer? _currentStatus;
 
-  String? get status => _currentStatus;
+  CurrentTimer? get status => _currentStatus;
 
   changeToNullStatus() {
-    _currentStatus = null;
+    _currentStatus = CurrentTimer.none;
     notifyListeners();
   }
 
-  /// String value: focus / rest / null
-  changeStatus({required String? value}) {
+  changeStatus({required CurrentTimer value}) {
     _currentStatus = value;
     notifyListeners();
   }
