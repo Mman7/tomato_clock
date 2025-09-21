@@ -47,16 +47,4 @@ class _HistoryPageState extends State<HistoryPage> {
               }),
         ));
   }
-
-  _tips(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(top: 100),
-      child: Center(
-          child: Text(
-        'Try to press the play button!',
-        style: TextStyle(
-            fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white),
-      )),
-    );
-  }
 }
