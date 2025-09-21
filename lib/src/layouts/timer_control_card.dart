@@ -1,15 +1,19 @@
-import 'package:after_layout/after_layout.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
+// import 'package:time_picker_spinner_pop_up/time_picker_spinner_pop_up.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
+import 'package:tomato_clock/src/Database/count_time_database.dart';
 import 'package:tomato_clock/src/layouts/CustomWidget/custom_material.dart';
-import 'package:tomato_clock/src/providers/current_status_provider.dart';
+// import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tomato_clock/src/providers/current_status_provider.dart';
 
-import '../Database/count_time_database.dart';
+// import '../Database/count_time_database.dart';
 
 class TimerControlCard extends StatefulWidget {
   const TimerControlCard(
@@ -26,49 +30,56 @@ class TimerControlCard extends StatefulWidget {
   State<TimerControlCard> createState() => _TimerControlCardState();
 }
 
-class _TimerControlCardState extends State<TimerControlCard>
-    with AfterLayoutMixin<TimerControlCard> {
-  var seconds = 0;
-  var isButtonDisable = false;
+class _TimerControlCardState extends State<TimerControlCard> {
+  Duration _duration = const Duration(seconds: 0);
   final timerController = CountdownController();
 
   @override
   void initState() {
+    // initialize timer
     CountTime.getTimer(databaseName: widget.title)
-        .then((value) => setState(() => seconds = value));
+        .then((value) => setState(() => _duration = Duration(seconds: value)));
+
     super.initState();
   }
 
-  @override
-  void afterFirstLayout(BuildContext context) {
-    timerController.setOnStart(() {
-      setState(() => isButtonDisable = true);
-    });
+  String formatDuration(double time) {
+    Duration duration = Duration(seconds: time.toInt());
+
+    // if min or second is one character add a zero infront of it
+    String mins = '${duration.inMinutes}';
+    String formatMins = mins.length > 1 ? mins : '0$mins';
+    String seconds = '${duration.inSeconds % 60}';
+    String formatSeconds = seconds.length > 1 ? seconds : '0$seconds';
+    return '${formatMins}m:${formatSeconds}s';
   }
 
-  void addSeconds() {
-    setState(() => seconds += 300);
-    CountTime.saveTimer(databaseName: widget.title, countTime: seconds);
+  void playTimer() {
+    if (_duration.inSeconds == 0) return;
+    showSimpleNotification(const Text("The timer has started"),
+        background: Colors.green, position: NotificationPosition.bottom);
+    timerController.start();
+    timerController.resume();
+    widget.onStart();
   }
 
-  void reduceSeconds() {
-    setState(() => seconds -= 300);
-    CountTime.saveTimer(databaseName: widget.title, countTime: seconds);
+  void pauseTimer() {
+    if (_duration.inSeconds == 0) return;
+    timerController.pause();
   }
 
-  minuteToSeconds(value) => Duration(minutes: value).inSeconds;
-  secondsToMinute(value) => Duration(seconds: value).inMinutes;
+  void resetTimer() {
+    if (_duration.inSeconds == 0) return;
+    timerController.restart();
+    timerController.pause();
+    // status
+    context.read<CurrentStatus>().changeToNullStatus();
+  }
 
   @override
   Widget build(BuildContext context) {
     Color? themePrimaryColor = Theme.of(context).textTheme.bodyLarge?.color;
     ScreenUtil().setSp(28);
-    //*  Minumum minute
-    if (seconds < minuteToSeconds(5)) seconds = minuteToSeconds(5);
-
-    //* Maximum minute
-    if (seconds > minuteToSeconds(60)) seconds = minuteToSeconds(60);
-
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 25),
       decoration: const BoxDecoration(
@@ -83,7 +94,7 @@ class _TimerControlCardState extends State<TimerControlCard>
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
             widget.title,
@@ -101,54 +112,84 @@ class _TimerControlCardState extends State<TimerControlCard>
                 widget.onFinish();
                 timerController.restart();
                 timerController.pause();
-                setState(() => isButtonDisable = false);
               },
               interval: const Duration(seconds: 1),
-              seconds: seconds,
+              seconds: _duration.inSeconds,
               build: (ctx, time) {
-                var timerToText = '${secondsToMinute(time.toInt())} mins';
-
                 return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          customMaterial(
-                            child: Tooltip(
-                              message: 'Add 5 minute',
-                              child: IconButton(
-                                  onPressed: () =>
-                                      isButtonDisable ? null : addSeconds(),
-                                  icon: Icon(
-                                    Icons.add_circle,
-                                    color: Theme.of(context).primaryColorDark,
-                                    size: 30.r,
-                                  )),
-                            ),
-                          ),
-                          //
-                          Text(time <= 60 ? '${time.toInt()} sec' : timerToText,
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontSize: seconds > 300 ? 15.5.sp : 18.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Theme.of(context).primaryColorDark,
-                              )),
-                          //
-                          customMaterial(
-                            child: Tooltip(
-                              message: 'reduce 5 minute',
-                              child: IconButton(
-                                  onPressed: () =>
-                                      isButtonDisable ? null : reduceSeconds(),
-                                  icon: Icon(
-                                    Icons.remove_circle,
-                                    size: 30.w,
-                                    color: Theme.of(context).primaryColorDark,
-                                  )),
-                            ),
-                          )
-                        ]),
+                    InkWell(
+                      onTap: () async {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Set the timer'),
+                              content: SizedBox(
+                                width: 300,
+                                height: 50.h,
+                                child: CupertinoTimerPicker(
+                                  initialTimerDuration: _duration,
+                                  onTimerDurationChanged: (value) {
+                                    setState(() => _duration = value);
+                                    CountTime.saveTimer(
+                                        databaseName: widget.title,
+                                        countTime: value.inSeconds);
+                                  },
+                                  mode: CupertinoTimerPickerMode.ms,
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text(
+                                    'Clear',
+                                    style: TextStyle(color: Colors.redAccent),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _duration = const Duration(seconds: 0);
+                                    });
+                                    CountTime.saveTimer(
+                                        databaseName: widget.title,
+                                        countTime: _duration.inSeconds);
+                                    Navigator.of(context)
+                                        .pop(); // Dismiss the dialog
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Set'),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Dismiss the dialog
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Cancel'),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Dismiss the dialog
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            //
+                            Text(formatDuration(time),
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme.of(context).primaryColorDark,
+                                )),
+                            //
+                          ]),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -157,19 +198,7 @@ class _TimerControlCardState extends State<TimerControlCard>
                             message: 'Play timer',
                             child: IconButton(
                                 onPressed: () {
-                                  isButtonDisable
-                                      ? null
-                                      : {
-                                          showSimpleNotification(
-                                              const Text(
-                                                  "The timer has started"),
-                                              background: Colors.green,
-                                              position:
-                                                  NotificationPosition.bottom),
-                                          timerController.start(),
-                                          timerController.resume(),
-                                          widget.onStart()
-                                        };
+                                  playTimer();
                                 },
                                 icon: Icon(
                                   Icons.play_arrow_rounded,
@@ -182,7 +211,7 @@ class _TimerControlCardState extends State<TimerControlCard>
                           child: Tooltip(
                             message: 'Pause timer',
                             child: IconButton(
-                                onPressed: () => timerController.pause(),
+                                onPressed: () => pauseTimer(),
                                 icon: Icon(
                                   Icons.pause,
                                   size: 30.w,
@@ -194,15 +223,7 @@ class _TimerControlCardState extends State<TimerControlCard>
                           child: Tooltip(
                             message: 'Reset timer',
                             child: IconButton(
-                                onPressed: () {
-                                  timerController.restart();
-                                  timerController.pause();
-                                  setState(() => isButtonDisable = false);
-
-                                  // status
-                                  final status = context.read<CurrentStatus>();
-                                  status.changeToNullStatus();
-                                },
+                                onPressed: () => resetTimer(),
                                 icon: Icon(
                                   Icons.restart_alt_rounded,
                                   size: 30.w,
