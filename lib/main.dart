@@ -3,13 +3,14 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:optimize_battery/optimize_battery.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:tomato_clock/src/layouts/CustomWidget/custom_gradient_background.dart';
 import 'package:tomato_clock/src/layouts/Tomato_Icon_List/tomato_count_card.dart';
 import 'package:tomato_clock/src/layouts/timer_controller.dart';
 import 'package:tomato_clock/src/utils/show_dialog.dart';
+
+//TODO finish this shit in one day
 
 //* Providers
 import 'src/providers/tomato_providers.dart';
@@ -23,8 +24,6 @@ import 'src/utils/notification.dart';
 import 'src/layouts/HistoryView/history_page.dart';
 import 'src/layouts/Theme/theme.dart';
 
-/// https://stackoverflow.com/a/6605704
-///
 // if build use:
 // flutter build apk --split-per-abi --no-shrink
 
@@ -44,9 +43,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => TomatoCount()),
         ChangeNotifierProvider(create: (_) => CurrentStatus()),
-        ChangeNotifierProvider(
-          create: (_) => NotificationService(),
-        ),
+        // ChangeNotifierProvider(
+        //   create: (_) => NotificationService(),
+        // ),
       ],
       child: OverlaySupport.global(
         child: MaterialApp(
@@ -69,32 +68,32 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   checkBatteryOptimize() {
-    OptimizeBattery.isIgnoringBatteryOptimizations().then((onValue) {
-      setState(() {
-        if (onValue) {
-          //* Igonring Battery Optimization
-        } else {
-          //* App is under battery optimization
-          setState(() {
-            showCustomDialog(
-                context: context,
-                onPress: () {
-                  OptimizeBattery.openBatteryOptimizationSettings();
-                },
-                title: 'Turn off battery optimization',
-                msg:
-                    'For App working properly please turn battery optimization');
-          });
-        }
-      });
-    });
+    // OptimizeBattery.isIgnoringBatteryOptimizations().then((onValue) {
+    //   setState(() {
+    //     if (onValue) {
+    //       //* Igonring Battery Optimization
+    //     } else {
+    //       //* App is under battery optimization
+    //       setState(() {
+    //         showCustomDialog(
+    //             context: context,
+    //             onPress: () {
+    //               OptimizeBattery.openBatteryOptimizationSettings();
+    //             },
+    //             title: 'Turn off battery optimization',
+    //             msg:
+    //                 'For App working properly please turn battery optimization');
+    //       });
+    //     }
+    //   });
+    // });
   }
 
   @override
   void initState() {
     super.initState();
     checkBatteryOptimize();
-    context.read<NotificationService>().initialize();
+    // context.read<NotificationService>().initialize();
   }
 
   @override

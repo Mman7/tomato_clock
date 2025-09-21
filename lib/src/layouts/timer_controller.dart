@@ -48,7 +48,7 @@ class _TimerControllerState extends State<TimerController> {
                 currentState.changeStatus(value: 'rest');
                 _tomatoCount.increaseTomatoCount();
                 TomatoDataBase.addNewTomatoData();
-                context.read<NotificationService>().instantNotification();
+                // context.read<NotificationService>().instantNotification();
                 BackgroundApp.stopBackgroundApp();
 
                 if (_tomatoCount.tomatoCount == 4) {
@@ -80,7 +80,7 @@ class _TimerControllerState extends State<TimerController> {
               },
               onFinish: () {
                 currentState.changeStatus(value: 'focus');
-                context.read<NotificationService>().instantNotification();
+                // context.read<NotificationService>().instantNotification();
                 showCustomDialog(
                     context: context,
                     title: 'Time to Focus !',

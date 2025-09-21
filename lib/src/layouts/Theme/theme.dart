@@ -5,7 +5,7 @@ ThemeData theme(BuildContext context) {
   return ThemeData(
       primaryColorDark: HexColor('#125E2B'),
       primaryColor: HexColor('#4BAF66'),
-      dialogTheme: DialogTheme(
+      dialogTheme: DialogThemeData(
           titleTextStyle: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,

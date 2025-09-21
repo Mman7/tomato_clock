@@ -6,7 +6,8 @@ class BackgroundApp {
       notificationTitle: "flutter_background example app",
       notificationText:
           "Background notification for keeping the example app running in the background",
-      notificationImportance: AndroidNotificationImportance.Default,
+      notificationImportance: AndroidNotificationImportance.normal,
+
       enableWifiLock: true,
       notificationIcon: AndroidResource(
           name: 'background_icon',
