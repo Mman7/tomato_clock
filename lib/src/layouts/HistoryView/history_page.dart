@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tomato_clock/src/layouts/CustomWidget/custom_gradient_background.dart';
 import 'package:tomato_clock/src/layouts/HistoryView/history_tomato_card.dart';
 import '../../Database/tomato_database.dart';
 
@@ -13,12 +12,10 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  var data;
+  List data = [];
   @override
   void initState() {
-    TomatoDataBase.fetchData().then((value) => setState(() {
-          data = value;
-        }));
+    TomatoDataBase.fetchData().then((value) => setState(() => data = value));
 
     super.initState();
   }
@@ -31,27 +28,24 @@ class _HistoryPageState extends State<HistoryPage> {
             'History',
             style: TextStyle(fontSize: 30),
           ),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Colors.white,
         ),
-        body: CustomGradientBackground(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            firstColor: '#88FFA7',
-            secondColor: '#3A754A',
-            child: ListView.builder(
-                controller: widget.scrollController,
-                padding: EdgeInsets.zero,
-                itemCount: data?.length ?? 1,
-                itemBuilder: (context, index) {
-                  if (data == null) return _tips(context);
-                  var tomatoCount = data[index]['tomatoCount'];
-                  var date = data[index]['date'];
+        body: Container(
+          color: Colors.grey[100],
+          child: ListView.builder(
+              controller: widget.scrollController,
+              padding: EdgeInsets.zero,
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                var tomatoCount = data[index]['tomatoCount'];
+                var date = data[index]['date'];
 
-                  return Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: TomatoCard(date: date, tomatoCount: tomatoCount),
-                  );
-                })));
+                return Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TomatoCard(date: date, tomatoCount: tomatoCount),
+                );
+              }),
+        ));
   }
 
   _tips(BuildContext context) {
