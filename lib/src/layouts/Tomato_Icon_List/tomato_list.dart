@@ -30,17 +30,20 @@ class _TomatoListState extends State<TomatoList> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          for (var i = 0; i < (tomatoCount); i++)
+          for (int i = 0; i < tomatoCount; i++)
             SvgPicture.asset(
               'assets/tomato.svg',
               width: height,
             ),
-          // show transparent svg to fill
+
+          // when count is 0 need to something to fill the space
           if (tomatoCount == 0)
-            SvgPicture.asset(
-              'assets/tomato.svg',
-              color: Colors.transparent,
-              width: height,
+            Opacity(
+              opacity: 0,
+              child: SvgPicture.asset(
+                'assets/tomato.svg',
+                width: height,
+              ),
             ),
         ],
       ),
