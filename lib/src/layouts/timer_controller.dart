@@ -23,29 +23,25 @@ class TimerController extends StatefulWidget {
 class _TimerControllerState extends State<TimerController> {
   @override
   Widget build(BuildContext context) {
-    var interactableFocus = true;
-    var interactableRest = true;
     var currentState = context.read<CurrentStatus>();
-    var _tomatoCount = context.read<TomatoCount>();
-    var status = context.watch<CurrentStatus>().status;
-    if (status == 'focus') setState(() => interactableRest = false);
-    if (status == 'rest') setState(() => interactableFocus = false);
+    var _tomatoCount = context.watch<TomatoCount>();
+    CurrentTimer? currentStatus = context.watch<CurrentStatus>().status;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: InteractableWidget(
-            canInteract: interactableFocus,
+            canInteract: currentStatus == CurrentTimer.none ||
+                currentStatus == CurrentTimer.focus,
             child: TimerControlCard(
               title: 'Focus',
               onStart: () {
                 BackgroundApp.intialBackgroundApp();
                 BackgroundApp.runBackgroundApp();
-                currentState.changeStatus(value: 'focus');
+                currentState.changeStatus(value: CurrentTimer.focus);
               },
               onFinish: () {
-                currentState.changeStatus(value: 'rest');
+                currentState.changeStatus(value: CurrentTimer.rest);
                 _tomatoCount.increaseTomatoCount();
                 TomatoDataBase.addNewTomatoData();
                 // context.read<NotificationService>().instantNotification();
@@ -71,15 +67,15 @@ class _TimerControllerState extends State<TimerController> {
         const Gap(15),
         Expanded(
           child: InteractableWidget(
-            canInteract: interactableRest,
+            canInteract: currentStatus == CurrentTimer.none ||
+                currentStatus == CurrentTimer.rest,
             child: TimerControlCard(
               title: 'Rest',
               onStart: () {
-                setState(() => interactableFocus = false);
-                currentState.changeStatus(value: 'rest');
+                currentState.changeStatus(value: CurrentTimer.rest);
               },
               onFinish: () {
-                currentState.changeStatus(value: 'focus');
+                currentState.changeStatus(value: CurrentTimer.focus);
                 // context.read<NotificationService>().instantNotification();
                 showCustomDialog(
                     context: context,
