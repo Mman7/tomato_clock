@@ -2,18 +2,18 @@ import 'package:intl/intl.dart';
 import 'package:localstore/localstore.dart';
 
 class TomatoDataBase {
+  static final _db = Localstore.instance;
   static String formatDate(DateTime date) =>
       DateFormat("MMMM d yyyy").format(date);
 
-  static Future<dynamic> fetchData() async {
-    final _db = Localstore.instance;
-    var items = await _db.collection('tomato').get();
-    var parseItem = items?.entries.map((e) => e.value).toList();
+  static Future<List> fetchData() async {
+    dynamic items = await _db.collection('tomato').get();
+    if (items == null) return [];
+    var parseItem = items?.entries.map((e) => e.value);
     return Future.value(parseItem);
   }
 
   static saveTomato() {
-    final _db = Localstore.instance;
     _db
         .collection('tomato')
         .doc(formatDate(DateTime.now()))
@@ -21,7 +21,6 @@ class TomatoDataBase {
   }
 
   static addNewTomatoData() async {
-    final _db = Localstore.instance;
     var id = formatDate(DateTime.now());
     var item = await _db.collection('tomato').doc(id).get();
     var tomatoCountInData = item?.entries.first.value ?? 0;
