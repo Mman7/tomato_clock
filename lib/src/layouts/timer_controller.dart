@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:tomato_clock/src/providers/tomato_providers.dart';
 import 'package:tomato_clock/src/Database/tomato_database.dart';
-import 'package:tomato_clock/src/utils/background_app.dart';
 
 import '../utils/notification.dart';
 import 'CustomWidget/interactable_widget.dart';
@@ -23,8 +22,8 @@ class TimerController extends StatefulWidget {
 class _TimerControllerState extends State<TimerController> {
   @override
   Widget build(BuildContext context) {
-    var currentState = context.read<CurrentStatus>();
-    var _tomatoCount = context.watch<TomatoCount>();
+    CurrentStatus currentState = context.read<CurrentStatus>();
+    TomatoCount _tomatoCount = context.watch<TomatoCount>();
     CurrentTimer? currentStatus = context.watch<CurrentStatus>().status;
 
     return Row(
@@ -35,18 +34,14 @@ class _TimerControllerState extends State<TimerController> {
                 currentStatus == CurrentTimer.focus,
             child: TimerControlCard(
               title: 'Focus',
-              onStart: () {
-                BackgroundApp.intialBackgroundApp();
-                BackgroundApp.runBackgroundApp();
+              onStart: () async {
                 currentState.changeStatus(value: CurrentTimer.focus);
               },
               onFinish: () {
                 currentState.changeStatus(value: CurrentTimer.rest);
                 _tomatoCount.increaseTomatoCount();
-                TomatoDataBase.addNewTomatoData();
-                // context.read<NotificationService>().instantNotification();
-                BackgroundApp.stopBackgroundApp();
-
+                TomatoDataBase.increaseTomato();
+                NotificationService.instantNotification();
                 if (_tomatoCount.tomatoCount == 4) {
                   _tomatoCount.cleanTomatoCount();
                   specialCustomDialog(
@@ -75,8 +70,8 @@ class _TimerControllerState extends State<TimerController> {
                 currentState.changeStatus(value: CurrentTimer.rest);
               },
               onFinish: () {
+                NotificationService.instantNotification();
                 currentState.changeStatus(value: CurrentTimer.focus);
-                // context.read<NotificationService>().instantNotification();
                 showCustomDialog(
                     context: context,
                     title: 'Time to Focus !',
