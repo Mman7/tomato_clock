@@ -3,17 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
-// import 'package:provider/provider.dart';
-// import 'package:time_picker_spinner_pop_up/time_picker_spinner_pop_up.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:tomato_clock/src/Database/count_time_database.dart';
-import 'package:tomato_clock/src/layouts/CustomWidget/custom_material.dart';
-// import 'package:tomato_clock/src/providers/current_status_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tomato_clock/src/providers/current_status_provider.dart';
-
-// import '../Database/count_time_database.dart';
 
 class TimerControlCard extends StatefulWidget {
   const TimerControlCard(
@@ -45,16 +39,15 @@ class _TimerControlCardState extends State<TimerControlCard> {
 
   String formatDuration(double time) {
     Duration duration = Duration(seconds: time.toInt());
-
     // if min or second is one character add a zero infront of it
     String mins = '${duration.inMinutes}';
     String formatMins = mins.length > 1 ? mins : '0$mins';
     String seconds = '${duration.inSeconds % 60}';
     String formatSeconds = seconds.length > 1 ? seconds : '0$seconds';
-    return '${formatMins}m:${formatSeconds}s';
+    return '$formatMins:$formatSeconds';
   }
 
-  void playTimer() {
+  void playTimer() async {
     if (_duration.inSeconds == 0) return;
     showSimpleNotification(const Text("The timer has started"),
         background: Colors.green, position: NotificationPosition.bottom);
@@ -108,7 +101,6 @@ class _TimerControlCardState extends State<TimerControlCard> {
               controller: timerController,
               onFinished: () {
                 //* onFinish
-
                 widget.onFinish();
                 timerController.restart();
                 timerController.pause();
@@ -128,7 +120,7 @@ class _TimerControlCardState extends State<TimerControlCard> {
                               title: const Text('Set the timer'),
                               content: SizedBox(
                                 width: 300,
-                                height: 50.h,
+                                height: 100.h,
                                 child: CupertinoTimerPicker(
                                   initialTimerDuration: _duration,
                                   onTimerDurationChanged: (value) {
@@ -165,7 +157,10 @@ class _TimerControlCardState extends State<TimerControlCard> {
                                   },
                                 ),
                                 TextButton(
-                                  child: const Text('Cancel'),
+                                  child: const Text(
+                                    'Cancel',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
                                   onPressed: () {
                                     Navigator.of(context)
                                         .pop(); // Dismiss the dialog
@@ -193,43 +188,37 @@ class _TimerControlCardState extends State<TimerControlCard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        customMaterial(
-                          child: Tooltip(
-                            message: 'Play timer',
-                            child: IconButton(
-                                onPressed: () {
-                                  playTimer();
-                                },
-                                icon: Icon(
-                                  Icons.play_arrow_rounded,
-                                  size: 30.w,
-                                  color: Theme.of(context).primaryColorDark,
-                                )),
-                          ),
+                        Tooltip(
+                          message: 'Play timer',
+                          child: IconButton(
+                              onPressed: () {
+                                playTimer();
+                              },
+                              icon: Icon(
+                                Icons.play_arrow_rounded,
+                                size: 30.w,
+                                color: Theme.of(context).primaryColorDark,
+                              )),
                         ),
-                        customMaterial(
-                          child: Tooltip(
-                            message: 'Pause timer',
-                            child: IconButton(
-                                onPressed: () => pauseTimer(),
-                                icon: Icon(
-                                  Icons.pause,
-                                  size: 30.w,
-                                  color: Theme.of(context).primaryColorDark,
-                                )),
-                          ),
+                        Tooltip(
+                          message: 'Pause timer',
+                          child: IconButton(
+                              onPressed: () => pauseTimer(),
+                              icon: Icon(
+                                Icons.pause,
+                                size: 30.w,
+                                color: Theme.of(context).primaryColorDark,
+                              )),
                         ),
-                        customMaterial(
-                          child: Tooltip(
-                            message: 'Reset timer',
-                            child: IconButton(
-                                onPressed: () => resetTimer(),
-                                icon: Icon(
-                                  Icons.restart_alt_rounded,
-                                  size: 30.w,
-                                  color: Theme.of(context).primaryColorDark,
-                                )),
-                          ),
+                        Tooltip(
+                          message: 'Reset timer',
+                          child: IconButton(
+                              onPressed: () => resetTimer(),
+                              icon: Icon(
+                                Icons.restart_alt_rounded,
+                                size: 30.w,
+                                color: Theme.of(context).primaryColorDark,
+                              )),
                         ),
                       ],
                     )
