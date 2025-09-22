@@ -3,32 +3,40 @@ import 'package:localstore/localstore.dart';
 
 class TomatoDataBase {
   static final Localstore _db = Localstore.instance;
-  static String _formatDate(DateTime date) =>
-      DateFormat("MMMM d yyyy").format(date);
+  static const String collectionName = 'tomato';
+  static final String todayID = _formatDate(DateTime.now());
 
-  static Future<List> fetchData() async {
-    dynamic tomatoCollection = await _db.collection('tomato').get();
-    if (tomatoCollection == null) return [];
-    List parseItem = tomatoCollection.entries.map((e) => e.value).toList();
+  static String _formatDate(DateTime date) =>
+      DateFormat('MM-dd-yyyy - EEEE').format(date);
+
+  static Future<List> fetchDataList() async {
+    // _db.collection(collectionName).delete();
+    var doc = await _db.collection(collectionName).get();
+    if (doc == null) return [];
+    List parseItem = doc.entries.map((e) => e.value).toList();
     return parseItem;
   }
 
   static saveTomato() {
     _db
-        .collection('tomato')
-        .doc('${DateTime.now()}')
+        .collection(collectionName)
+        .doc(todayID)
         .set({'tomatoCount': 1, 'date': _formatDate(DateTime.now())});
   }
 
-  static addNewTomatoData() async {
-    // get today
-    String id = _formatDate(DateTime.now());
-    var item = await _db.collection('tomato').doc(id).get();
-    var tomatoCountInData = item?.entries.first.value ?? 0;
+  static increaseTomato() async {
+    var doc = await _db.collection(collectionName).doc(todayID).get();
 
-    _db.collection('tomato').doc(id).set({
-      'tomatoCount': tomatoCountInData + 1,
-      'date': _formatDate(DateTime.now())
-    });
+    // if doc cant be found create a new one
+    if (doc == null) saveTomato();
+
+    // check tomato Count
+    int defaultCount = doc?['tomatoCount'] ?? 0;
+    int tomatoCount = defaultCount + 1;
+
+    _db
+        .collection(collectionName)
+        .doc(todayID)
+        .set({'tomatoCount': tomatoCount, 'date': _formatDate(DateTime.now())});
   }
 }
