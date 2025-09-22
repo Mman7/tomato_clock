@@ -15,8 +15,8 @@ class _HistoryPageState extends State<HistoryPage> {
   List data = [];
   @override
   void initState() {
-    TomatoDataBase.fetchData().then((value) => setState(() => data = value));
-
+    TomatoDataBase.fetchDataList()
+        .then((value) => setState(() => data = value));
     super.initState();
   }
 
@@ -37,8 +37,8 @@ class _HistoryPageState extends State<HistoryPage> {
               padding: EdgeInsets.zero,
               itemCount: data.length,
               itemBuilder: (context, index) {
-                var tomatoCount = data[index]['tomatoCount'];
-                var date = data[index]['date'];
+                dynamic tomatoCount = data[index]['tomatoCount'];
+                dynamic date = data[index]['date'];
 
                 return Padding(
                   padding: const EdgeInsets.all(15.0),
