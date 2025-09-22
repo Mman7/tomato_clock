@@ -1,6 +1,8 @@
 //* Package
+
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -8,16 +10,12 @@ import 'package:provider/provider.dart';
 import 'package:tomato_clock/src/layouts/CustomWidget/custom_gradient_background.dart';
 import 'package:tomato_clock/src/layouts/Tomato_Icon_List/tomato_count_card.dart';
 import 'package:tomato_clock/src/layouts/timer_controller.dart';
-import 'package:tomato_clock/src/utils/show_dialog.dart';
-
-//TODO finish this shit in one day
 
 //* Providers
 import 'src/providers/tomato_providers.dart';
 import 'src/providers/current_status_provider.dart';
 
 //* Utils
-import 'src/utils/background_app.dart';
 import 'src/utils/notification.dart';
 
 //* Layout
@@ -26,11 +24,26 @@ import 'src/layouts/Theme/theme.dart';
 
 // if build use:
 // flutter build apk --split-per-abi --no-shrink
+final FlutterLocalNotificationsPlugin notificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  BackgroundApp.intialBackgroundApp();
+  NotificationService.initialize();
+  // init timezone
+  WidgetsFlutterBinding.ensureInitialized();
 
+  const android = AndroidInitializationSettings('@mipmap/ic_launcher');
+  const settings = InitializationSettings(android: android);
+
+  await notificationsPlugin.initialize(settings);
+
+  // Ask permission for Android 13+
+  final androidImpl = notificationsPlugin.resolvePlatformSpecificImplementation<
+      AndroidFlutterLocalNotificationsPlugin>();
+  await androidImpl?.requestExactAlarmsPermission();
+  await androidImpl?.requestNotificationsPermission();
+  await androidImpl?.requestExactAlarmsPermission();
   runApp(const MyApp());
 }
 
@@ -43,9 +56,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => TomatoCount()),
         ChangeNotifierProvider(create: (_) => CurrentStatus()),
-        // ChangeNotifierProvider(
-        //   create: (_) => NotificationService(),
-        // ),
       ],
       child: OverlaySupport.global(
         child: MaterialApp(
@@ -65,35 +75,10 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage>
-    with SingleTickerProviderStateMixin {
-  checkBatteryOptimize() {
-    // OptimizeBattery.isIgnoringBatteryOptimizations().then((onValue) {
-    //   setState(() {
-    //     if (onValue) {
-    //       //* Igonring Battery Optimization
-    //     } else {
-    //       //* App is under battery optimization
-    //       setState(() {
-    //         showCustomDialog(
-    //             context: context,
-    //             onPress: () {
-    //               OptimizeBattery.openBatteryOptimizationSettings();
-    //             },
-    //             title: 'Turn off battery optimization',
-    //             msg:
-    //                 'For App working properly please turn battery optimization');
-    //       });
-    //     }
-    //   });
-    // });
-  }
-
+class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    checkBatteryOptimize();
-    // context.read<NotificationService>().initialize();
   }
 
   @override
@@ -108,8 +93,9 @@ class _MyHomePageState extends State<MyHomePage>
           leading: Tooltip(
               message: 'History',
               child: IconButton(
-                  icon: const Icon(Icons.history),
+                  icon: const Icon(Icons.date_range_rounded),
                   iconSize: 25,
+                  color: Colors.white,
                   onPressed: () {
                     Widget bottomSheet(
                       BuildContext context,
@@ -138,8 +124,9 @@ class _MyHomePageState extends State<MyHomePage>
             Padding(
               padding: const EdgeInsets.only(right: 30),
               child: Tooltip(
-                  message: 'Refresh Tomato Count',
+                  message: 'Reset Tomato',
                   child: IconButton(
+                      color: Colors.white,
                       iconSize: 25,
                       onPressed: () {
                         context.read<CurrentStatus>().changeToNullStatus();
@@ -156,15 +143,12 @@ class _MyHomePageState extends State<MyHomePage>
                   bottomRight: Radius.circular(20))),
           title: const Text(
             'Tomato Clock',
-            style: TextStyle(fontSize: 25),
+            style: TextStyle(fontSize: 26, color: Colors.white),
           ),
         ),
         body: CustomGradientBackground(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-
-          /// this will take all the space
-          width: MediaQuery.of(context).size.width,
           firstColor: '#88FFA7',
           secondColor: '#3A754A',
           child: Padding(
@@ -184,6 +168,7 @@ class _MyHomePageState extends State<MyHomePage>
             ),
           ),
         ),
+        // body: Container(),
       ),
     );
   }
