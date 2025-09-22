@@ -1,8 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CountTime {
-  static const _defaultFocusTime = 25;
-  static const _restCountTime = 5;
+  // seconds
+  static const _defaultFocusTime = 900;
+  static const _restCountTime = 300;
 
   /// [databaseName] = FocusCountTime / RestCountTime
   static saveTimer(
@@ -12,7 +13,7 @@ class CountTime {
   }
 
   static _defaultTime(databaseName) =>
-      databaseName == 'focus' ? _defaultFocusTime : _restCountTime;
+      databaseName == 'Focus' ? _defaultFocusTime : _restCountTime;
 
   /// [databaseName] = FocusCountTime / RestCountTime
   static Future<int> getTimer({required String databaseName}) async {
