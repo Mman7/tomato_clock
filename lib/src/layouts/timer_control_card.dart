@@ -134,13 +134,6 @@ class _TimerControlCardState extends State<TimerControlCard> {
                               ),
                               actions: <Widget>[
                                 TextButton(
-                                  child: const Text('Set'),
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // Dismiss the dialog
-                                  },
-                                ),
-                                TextButton(
                                   child: const Text(
                                     'Clear',
                                     style: TextStyle(color: Colors.redAccent),
@@ -152,6 +145,13 @@ class _TimerControlCardState extends State<TimerControlCard> {
                                     CountTime.saveTimer(
                                         databaseName: widget.title,
                                         countTime: _duration.inSeconds);
+                                    Navigator.of(context)
+                                        .pop(); // Dismiss the dialog
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Set'),
+                                  onPressed: () {
                                     Navigator.of(context)
                                         .pop(); // Dismiss the dialog
                                   },
