@@ -1,12 +1,38 @@
+# 🍅 Tomato Clock
 
-- 🔭 I’m currently working on **Tomato Clock**
-- Here are some screenshot
+A  Pomodoro timer app built with **Flutter & Dart**.
 
-<img align=left src='https://github.com/Mman7/tomato_clock/assets/70054123/f3540908-c7b3-47ff-8ec6-f3119e8d4c19' width="200px">
+## 🔭 Currently Working On  
+<p>
+I'm developed <b>Tomato Clock</b>— a minimal, elegant tool to boost productivity using the Pomodoro technique.
+</p>
 
-<img src='https://github.com/Mman7/tomato_clock/assets/70054123/b8a601f0-db48-4fd0-9563-868befaca106' width="200px" >
+## 📸 App showcase  
+<img width="600" height="536" alt="Tomato Clock App Showcase" src="https://github.com/user-attachments/assets/40e80dd5-d262-45bb-8116-57cc53da316c" />
+
+---
+
+## 🛠️ Languages & Tools  
+
+<p align="left">  
+  <a href="https://dart.dev" target="_blank" rel="noreferrer">  
+    <img src="https://www.vectorlogo.zone/logos/dartlang/dartlang-icon.svg" alt="Dart" width="40" height="40" />  
+  </a>  
+  <a href="https://flutter.dev" target="_blank" rel="noreferrer">  
+    <img src="https://www.vectorlogo.zone/logos/flutterio/flutterio-icon.svg" alt="Flutter" width="40" height="40" />  
+  </a>  
+</p>
+
+
+## 🧭 Features (Planned & Implemented)
+
+- **Pomodoro timer** (25 min work / 5 min break)  
+- Customizable session durations  
+- Long breaks after a set number of pomodoros  
+- Notifications & alerts  
+- Sound / vibration cues  
+- State persistence (resume app mid-session)  
+- Sleek, intuitive UI  
 
 
 
-<h3 align="left">Languages and Tools:</h3>
-<p align="left"> <a href="https://dart.dev" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/dartlang/dartlang-icon.svg" alt="dart" width="40" height="40"/> </a> <a href="https://flutter.dev" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/flutterio/flutterio-icon.svg" alt="flutter" width="40" height="40"/> </a> </p>
