@@ -26,7 +26,7 @@ I'm developed <b>Tomato Clock</b>— a minimal, elegant tool to boost productivi
 
 ## 🧭 Features (Planned & Implemented)
 
-- **Pomodoro timer** (25 min work / 5 min break)  
+- **Pomodoro timer** (15 min work / 5 min break)  
 - Customizable session durations  
 - Long breaks after a set number of pomodoros  
 - Notifications & alerts  
